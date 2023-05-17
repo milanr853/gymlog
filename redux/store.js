@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import basketReducer from "./dataSlice"
+import weekModalViewReducer from "./weekModalViewSlice"
 
 const store = configureStore({
     reducer: {
-        basket: basketReducer,
+        weekModalViewReducer,
     }
 })
 
