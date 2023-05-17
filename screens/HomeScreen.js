@@ -73,12 +73,18 @@ function HomeScreen() {
             const all_selected_dates = [...Object.keys(markedDates)]
 
             // to get all filtered dates on and after the selected date
-            var filteredDates = all_selected_dates.filter((date) => {
+            let filteredDates = all_selected_dates.filter((date) => {
                 return moment(date).isSame(day.dateString) || moment(date).isAfter(day.dateString);
             });
 
+            var range_id;
+
             filteredDates.length && filteredDates.forEach(date => {
-                if (moment(date).isAfter(lastDateInTheRange)) return
+                if (moment(date).isAfter(lastDateInTheRange)) {
+                    if (markedDates[date].id === range_id) { delete markedDates[date]; return }
+                    else return
+                }
+                range_id = markedDates[date].id
                 delete markedDates[date]
             })
 
@@ -96,6 +102,7 @@ function HomeScreen() {
         }
     }
 
+    console.log(markedDates)
     ////////////////////////////
     const createRoutine = () => {
         console.debug(currentDate);
