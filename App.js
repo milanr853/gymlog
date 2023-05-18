@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./screens/HomeScreen";
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import EventScreen from "./screens/EventScreen";
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Event" component={EventScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
