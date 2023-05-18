@@ -93,8 +93,8 @@ function HomeScreen() {
     }
 
     ///////////////////////////
-    const goToEventPage = () => {
-        navigation.navigate("Event")
+    const goToEventPage = (day) => {
+        navigation.navigate("Event", { day })
     }
 
 
