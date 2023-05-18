@@ -4,19 +4,37 @@ import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
 import { useDispatch } from "react-redux"
 import Ionicons from '@expo/vector-icons/Ionicons';
+import moment from 'moment';
 
 
 
-function SelectWeekModal({ handleDayPress, selectedDayObject }) {
+function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
     const [weeks, setWeeks] = useState(0);
     const weeksArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
     const dispatch = useDispatch()
 
+
+    const continuingDate = () => {
+        const date_keys = Object.keys(markedDates)
+
+        const currentDate = date_keys.length ? moment(`${date_keys[date_keys.length - 1]}`).add(1, 'day') : moment()
+
+        const date = {
+            "year": currentDate.year(),
+            "month": currentDate.month() + 1,
+            "day": currentDate.date(),
+            "timestamp": currentDate.valueOf(),
+            "dateString": currentDate.format("YYYY-MM-DD")
+        }
+        return date
+    }
+
     const setNumOfWeeks = () => {
         if (weeks <= 0) return
         dispatch(hideWeekModal())
-        handleDayPress(selectedDayObject, weeks)
+
+        handleDayPress(selectedDayObject ? selectedDayObject : continuingDate(), weeks)
         setWeeks(0)
     }
 
@@ -24,6 +42,7 @@ function SelectWeekModal({ handleDayPress, selectedDayObject }) {
         dispatch(hideWeekModal())
         setWeeks(0)
     }
+
 
 
     return (

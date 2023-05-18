@@ -91,25 +91,23 @@ function HomeScreen() {
 
             setMarkedDates(prev => {
                 return {
+                    ...prev,
                     [day.dateString]: {
                         startingDay: true, color: randomColor, textColor: 'white', id: uid
                     },
                     ...markDates(day, weeks),
-                    ...prev
                 }
             }
             )
         }
     }
 
-    console.log(markedDates)
     ////////////////////////////
     const createRoutine = () => {
-        console.debug(currentDate);
+        dispatch(showWeekModal())
     }
 
 
-    console.log(markedDates)
 
     return (
         <>
@@ -165,7 +163,7 @@ function HomeScreen() {
                 style={{ marginBottom: 24 }}
             />
 
-            {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} />}
+            {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />}
         </>
 
     )
