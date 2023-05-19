@@ -6,7 +6,6 @@ import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showEventModal } from "../redux/eventViewModalSlice"
-import { showExerciseModal } from '../redux/exerciseAddModal';
 
 
 
@@ -97,13 +96,8 @@ function Layout({ children }) {
         setShowContent(false);
     };
 
-    const runTheOption = (type) => {
-        if (type === "event") {
-            dispatch(showEventModal())
-        }
-        else {
-            dispatch(showExerciseModal())
-        }
+    const runTheOption = () => {
+        dispatch(showEventModal())
         closeOptions()
     }
 
@@ -135,12 +129,9 @@ function Layout({ children }) {
                                 showOptions &&
                                 <Animated.View style={animatedStyles} >
                                     {showContent && <>
-                                        <Pressable onPress={() => runTheOption("event")} className="h-full w-full justify-center items-start px-4 active:bg-gray-100 rounded-md">
+                                        <Pressable onPress={runTheOption} className="h-full w-full justify-center items-start px-4 active:bg-gray-100 rounded-md">
                                             <Text>Create Event</Text>
                                         </Pressable>
-                                        {/* <Pressable onPress={() => runTheOption("muscle_set")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-b-md">
-                                            <Text>Add Exercise</Text>
-                                        </Pressable> */}
                                     </>}
                                     <Animated.View style={pointerStyles} className="w-0 h-0 
                                     border-solid 

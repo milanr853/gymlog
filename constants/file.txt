@@ -1,0 +1,37 @@
+    const eventTypes = [
+        { title: "Chest", uri: chest, color: "bg-orange-400", bg: "bg-orange-400" },
+        { title: "Back", uri: back, color: "bg-purple-400", bg: "bg-purple-400" },
+        { title: "Abs", uri: abs, color: "bg-red-400", bg: "bg-red-400" },
+        { title: "Legs", uri: leg, color: "bg-green-400", bg: "bg-green-400" },
+        { title: "Shoulder", uri: shoulder, color: "bg-slate-400", bg: "bg-slate-400" },
+        { title: "Arms", uri: arm, color: "bg-blue-400", bg: "bg-blue-400" }
+    ]
+--> this is fixed and not going to change . this is an overall objects. same for every date
+
+//////////////////////////////////////
+
+eventStack  = [{ title: Chest, exercises: [...exerciseNames] },{ title: Back, exercises: [...exerciseNames] }]
+--> this object will vary a/t date. every date will have their own set of events or eventStack
+--> eventStack will be called as per date
+--> overall eventStack object :
+{
+    id:"x789oiA3",
+    event_stack:[{ title: Chest, exercises: [...exerciseNames] },{ title: Back, exercises: [...exerciseNames] }]
+}
+
+id is specific for specific date
+
+//////////////////////////////////////
+
+muscleSet = { title: Chest, exercises: [...exerciseNames] }
+
+//////////////////////////////////////
+
+now for each exercise data will be shown
+{
+    exerciseData:{...data},
+    id:"x789oiA3",
+    event: Chest
+}
+
+** in an event there can be one muscleSet or multiple muscleSets i.e eventStack

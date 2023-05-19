@@ -1,15 +1,10 @@
-import React, { useState } from 'react'
-import { Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import arm from "../assets/images/arms.png"
-import abs from "../assets/images/abs.png"
-import back from "../assets/images/back.png"
-import chest from "../assets/images/chest.png"
-import shoulder from "../assets/images/shoulder.png"
-import leg from "../assets/images/legs.png"
+import React from 'react'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { hideEventModal } from "../redux/eventViewModalSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { showExerciseModal } from '../redux/exerciseAddModal'
+import { eventTypes } from '../constants/Constants'
 
 
 function AddMuscleSetModal() {
@@ -17,18 +12,9 @@ function AddMuscleSetModal() {
 
     const dispatch = useDispatch()
 
-    const muscleSet = [
-        { title: "Chest", uri: chest, color: "bg-orange-400" },
-        { title: "Back", uri: back, color: "bg-purple-400" },
-        { title: "Abs", uri: abs, color: "bg-red-400" },
-        { title: "Legs", uri: leg, color: "bg-green-400" },
-        { title: "Shoulder", uri: shoulder, color: "bg-slate-400" },
-        { title: "Arms", uri: arm, color: "bg-blue-400" }]
-
-
-    const OpenAddExerciseToStackModal = (muscleSet) => {
+    const OpenAddExerciseToStackModal = (muscleName) => {
         dispatch(hideEventModal())
-        dispatch(showExerciseModal(muscleSet))
+        dispatch(showExerciseModal(muscleName))
     }
 
     const closeModal = () => {
@@ -44,7 +30,7 @@ function AddMuscleSetModal() {
             </TouchableOpacity>
             <View className="max-w-[90%] h-[270px] flex-row flex-wrap justify-between items-center bg-white p-4 rounded-md">
                 {
-                    muscleSet.map((muscle, ind) => {
+                    eventTypes.map((muscle, ind) => {
                         return (
                             <TouchableOpacity key={muscle.title} onPress={() => OpenAddExerciseToStackModal(muscle.title)} activeOpacity={1} className={`w-[100px] h-[100px] border-4 border-slate-600 rounded-md ${muscle.color} items-center justify-between p-4 ${ind < 3 ? "mb-8" : ""} ${ind < muscle.length - 1 ? "mr-5" : ""}`}>
                                 <View className='w-full h-[100%] flex-row justify-center items-center'>

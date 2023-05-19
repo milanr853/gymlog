@@ -14,7 +14,6 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
 
     const dispatch = useDispatch()
 
-
     const continuingDate = () => {
         const date_keys = Object.keys(markedDates)
 
