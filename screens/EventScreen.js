@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Pressable, ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native'
 import Layout from '../components/Layout'
 import SpecificExerciseModal from '../components/SpecificExerciseModal'
 import { useRoute } from '@react-navigation/native'
@@ -7,49 +7,35 @@ import moment from 'moment/moment';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddMuscleSetModal from '../components/AddMuscleSetModal'
 
-import arm from "../assets/images/arms.png"
-import abs from "../assets/images/abs.png"
-import back from "../assets/images/back.png"
-import chest from "../assets/images/chest.png"
-import shoulder from "../assets/images/shoulder.png"
-import leg from "../assets/images/legs.png"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { showExerciseModal } from '../redux/exerciseAddModal'
+import { removeExerciseFromStack } from '../redux/exerciseStackSlice'
+import { eventTypes } from '../constants/Constants'
 
-
+// multiple muscleSet in an event is known as eventStack 
 
 function EventScreen() {
     const { params: {
         day
     } } = useRoute()
 
-    const showEventModal = useSelector(store => store.eventModalViewReducer.show)
+    const dispatch = useDispatch()
+
+    const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
     const [accordion, setAccordion] = useState(false)
     const [muscleGrp, setMuscleGrp] = useState(null)
+    const [event, setEvent] = useState(defaultEventData)
 
-    const [event, setEvent] = useState({ title: 'No event', color: "bg-orange-400", bg: "bg-gray-100" })
+    const defaultEventData = { title: 'No event', color: "bg-orange-400", bg: "bg-gray-100" }
 
     const inputDate = moment(day);
     const output = inputDate.format('dddd, D MMMM, YYYY');
 
-    const muscleSets = [
-        { title: "Chest", exercises: ["Fly machine", "Chest press machine", "Bench press", "Inclined dumbell press"] },
-        { title: "Back", exercises: ["Lat pulldown", "Rows", "T-bar rows"] },
-        { title: "Triceps", exercises: ["Dumbell kickback", "Skull crusher", "Dumbell extension"] }]
-
-    const eventType = [
-        { title: "Chest", uri: chest, color: "bg-orange-400", bg: "bg-orange-400" },
-        { title: "Back", uri: back, color: "bg-purple-400", bg: "bg-purple-400" },
-        { title: "Abs", uri: abs, color: "bg-red-400", bg: "bg-red-400" },
-        { title: "Legs", uri: leg, color: "bg-green-400", bg: "bg-green-400" },
-        { title: "Shoulder", uri: shoulder, color: "bg-slate-400", bg: "bg-slate-400" },
-        { title: "Arms", uri: arm, color: "bg-blue-400", bg: "bg-blue-400" }
-    ]
-
     const heightValue = useRef(new Animated.Value(0)).current;
 
     const animateWidth = (show, num) => {
-        const targetHeight = show ? num * 35 : 0
+        const targetHeight = show ? (num * 35) + num : 0
         Animated.timing(heightValue, {
             toValue: targetHeight,
             duration: 500,
@@ -57,16 +43,16 @@ function EventScreen() {
         }).start();
     };
 
-    const showExercises = (muscle) => {
+    const showExercises = (muscleSet) => {
         heightValue._value = 0
-        setMuscleGrp(muscle)
+        setMuscleGrp(muscleSet)
         setAccordion(true)
-        const num = muscle.exercises.length
+        const num = muscleSet.exercises.length
         animateWidth(true, num)
     }
 
-    const hideExercises = (muscle) => {
-        const num = muscle.exercises.length
+    const hideExercises = (muscleSet) => {
+        const num = muscleSet.exercises.length
         heightValue._value = num * 35
         setAccordion(false)
         animateWidth(false, num)
@@ -77,11 +63,22 @@ function EventScreen() {
     }
 
     ////////////////////////
+    useEffect(() => {
+        const eventObj = eventTypes.find(obj => obj?.title === eventStack[0]?.title)
+        if (eventObj) setEvent(eventObj)
+        else setEvent(defaultEventData)
+    }, [eventStack.length])
 
-    const selectMuscleSetType = (muscle) => {
-        const eventObj = eventType.find(obj => obj.title === muscle)
-        setEvent(eventObj)
+
+    const OpenAddExerciseToStackModal = (muscleName) => {
+        dispatch(showExerciseModal(muscleName))
     }
+
+    const RemoveExerciseFromStack = (muscleName) => {
+        dispatch(removeExerciseFromStack(muscleName))
+    }
+
+
 
 
     return (
@@ -97,18 +94,35 @@ function EventScreen() {
                     </View>
 
                     <View className="w-full px-10 pt-8 pb-4 space-y-8">
-                        {muscleSets.map(muscle => {
+                        {eventStack.map(muscle => {
                             return (
-                                <View key={muscle.title} className="bg-gray-200 border border-gray-400 w-full rounded-sm px-2" >
+                                <View key={muscle.title} className="bg-gray-200 border border-gray-400 w-full rounded-sm px-2 py-1" >
                                     <View className="flex-row justify-between items-center h-[35px]">
                                         <Text className="text-gray-400 ">{muscle.title.toUpperCase()}</Text>
                                         {
-                                            accordion && muscleGrp?.title === muscle.title ? <View  >
-                                                <Ionicons onPress={() => hideExercises(muscle)} name="chevron-up-outline" size={16} color="gray"></Ionicons>
-                                            </View>
+                                            accordion && muscleGrp?.title === muscle.title ?
+                                                <View className="flex-row space-x-4 items-center">
+                                                    <View className="flex-row space-x-2">
+                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
+                                                            <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={17} color="gray"></Ionicons>
+                                                        </View>
+                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
+                                                            <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
+                                                        </View>
+                                                    </View>
+                                                    <Ionicons onPress={() => hideExercises(muscle)} name="chevron-up-outline" size={17} color="gray"></Ionicons>
+                                                </View>
                                                 :
-                                                <View >
-                                                    <Ionicons onPress={() => showExercises(muscle)} name="chevron-down-outline" size={16} color="gray"></Ionicons>
+                                                <View className="flex-row space-x-4 items-center">
+                                                    <View className="flex-row space-x-2">
+                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
+                                                            <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={17} color="gray"></Ionicons>
+                                                        </View>
+                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
+                                                            <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
+                                                        </View>
+                                                    </View>
+                                                    <Ionicons onPress={() => showExercises(muscle)} name="chevron-down-outline" size={17} color="gray"></Ionicons>
                                                 </View>
                                         }
                                     </View>
@@ -131,14 +145,13 @@ function EventScreen() {
                                     }
                                 </View>
                             )
-                        })
-                        }
+                        })}
                     </View>
                 </ScrollView>
             </View>
 
-            {/* <SpecificExerciseModal /> */}
-            <AddMuscleSetModal selectMuscleSetType={selectMuscleSetType} show={showEventModal} />
+            <SpecificExerciseModal />
+            <AddMuscleSetModal />
         </Layout>
     )
 }
