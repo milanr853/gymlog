@@ -23,6 +23,7 @@ function EventScreen() {
     } } = useRoute()
 
     const showEventModal = useSelector(store => store.eventModalViewReducer.show)
+    const showExerciseModal = useSelector(store => store.exerciseAddModalReducer.show)
 
     const [accordion, setAccordion] = useState(false)
     const [muscleGrp, setMuscleGrp] = useState(null)
@@ -137,7 +138,7 @@ function EventScreen() {
                 </ScrollView>
             </View>
 
-            {/* <SpecificExerciseModal /> */}
+            <SpecificExerciseModal show={showExerciseModal} />
             <AddMuscleSetModal selectMuscleSetType={selectMuscleSetType} show={showEventModal} />
         </Layout>
     )

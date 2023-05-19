@@ -8,6 +8,8 @@ import shoulder from "../assets/images/shoulder.png"
 import leg from "../assets/images/legs.png"
 import { hideEventModal } from "../redux/eventViewModalSlice"
 import { useDispatch } from 'react-redux'
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 function AddMuscleSetModal({ selectMuscleSetType, show }) {
     const dispatch = useDispatch()
@@ -26,11 +28,17 @@ function AddMuscleSetModal({ selectMuscleSetType, show }) {
         dispatch(hideEventModal())
     }
 
+    const closeModal = () => {
+        dispatch(hideEventModal())
+    }
 
 
 
     return (
         show && <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center flex-row">
+            <TouchableOpacity activeOpacity={1} className="absolute top-3 right-2 justify-center items-center w-[40px] h-[40px] bg-gray-400 rounded-full border-4 border-white" onPress={closeModal}>
+                <Ionicons name="close-outline" size={35} color='white'></Ionicons>
+            </TouchableOpacity>
 
             <View className="max-w-[80%] flex-row flex-wrap justify-between items-center">
                 {

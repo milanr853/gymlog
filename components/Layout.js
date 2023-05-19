@@ -6,6 +6,7 @@ import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showEventModal } from "../redux/eventViewModalSlice"
+import { showExerciseModal } from '../redux/exerciseAddModal';
 
 
 
@@ -100,7 +101,9 @@ function Layout({ children }) {
         if (type === "event") {
             dispatch(showEventModal())
         }
-        else { }
+        else {
+            dispatch(showExerciseModal())
+        }
         closeOptions()
     }
 
