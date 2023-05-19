@@ -1,21 +1,16 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react'
 import { CalendarList, } from 'react-native-calendars';
 import moment from 'moment/moment';
 import Layout from '../components/Layout';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import SelectWeekModal from '../components/SelectWeekModal';
 import { useDispatch, useSelector } from "react-redux"
 import { showWeekModal } from '../redux/weekModalViewSlice';
 import { nanoid } from '@reduxjs/toolkit';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 function HomeScreen() {
-    const navigation = useNavigation()
-
     const [markedDates, setMarkedDates] = useState({});
     const [dayObject, setDayObject] = useState(null);
 
@@ -23,14 +18,9 @@ function HomeScreen() {
 
     const dispatch = useDispatch()
 
-    const weekModalView = useSelector(store => store.weekModalViewReducer.show)
+    const navigation = useNavigation()
 
-    // Hiding header of React Navigation
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false
-        })
-    }, [])
+    const weekModalView = useSelector(store => store.weekModalViewReducer.show)
 
     const markedDatesColorCodes = ["#1B9C85", "#ffa500", '#5C469C', "#CBB279", "#088395", "#E86A33", "#393646"]
     let generateRandomMarkerColor = () => markedDatesColorCodes[Math.floor(Math.random() * markedDatesColorCodes.length)];
@@ -91,42 +81,25 @@ function HomeScreen() {
 
             setMarkedDates(prev => {
                 return {
+                    ...prev,
                     [day.dateString]: {
                         startingDay: true, color: randomColor, textColor: 'white', id: uid
                     },
                     ...markDates(day, weeks),
-                    ...prev
                 }
             }
             )
         }
     }
 
-    console.log(markedDates)
-    ////////////////////////////
-    const createRoutine = () => {
-        console.debug(currentDate);
+    ///////////////////////////
+    const goToEventPage = (day) => {
+        navigation.navigate("Event", { day })
     }
 
 
-    console.log(markedDates)
-
     return (
-        <>
-            <View className="bg-yellow-200 w-full z-10 fixed h-[60px] flex-row items-center px-4 justify-between">
-                <View className="flex-row items-center space-x-2">
-                    <TouchableOpacity >
-                        <Ionicons name='reorder-three-outline' size={32} color='black' />
-                    </TouchableOpacity>
-                    <Text className="font-bold text-lg">Gym Log</Text>
-                </View>
-
-                <TouchableOpacity className="flex-row" onPress={createRoutine}>
-                    <Ionicons name="duplicate-outline" size={28} color='black'></Ionicons>
-                </TouchableOpacity>
-            </View>
-
-            <StatusBar style='auto' hidden={true} />
+        <Layout>
 
             <CalendarList
                 // Max amount of months allowed to scroll to the past. Default = 50
@@ -139,22 +112,12 @@ function HomeScreen() {
                 showScrollIndicator={true}
 
                 // for specific event view
-                // onDayPress={day => {
-                //     console.debug(day.dateString)
-                // }}
+                onDayPress={day => {
+                    goToEventPage(day.dateString)
+                }}
 
                 markedDates={markedDates}
 
-                theme={{
-                    // calendarBackground: 'orange', // calender background
-                    // textSectionTitleColor: 'orange',// day text color
-                    // selectedDayBackgroundColor: 'orange',// selected day bg color
-                    // selectedDayTextColor: 'black',// selected day text color
-                    // todayTextColor: 'red',// today text color
-                    // dayTextColor: 'red',// date text color
-                    // textDisabledColor: 'red',// disable text color
-                    // dotColor: 'black',
-                }}
                 markingType={'period'}
                 minDate={currentDate}
 
@@ -165,8 +128,8 @@ function HomeScreen() {
                 style={{ marginBottom: 24 }}
             />
 
-            {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} />}
-        </>
+            {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />}
+        </Layout>
 
     )
 }
