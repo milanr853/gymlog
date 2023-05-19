@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const weekModalViewSlice = createSlice({
-    name: 'basket',
+    name: 'weekModal',
     initialState,
     reducers: {
         showWeekModal: (state) => {

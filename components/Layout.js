@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { showEventModal } from "../redux/eventViewModalSlice"
 
 
 
@@ -24,9 +25,11 @@ function Layout({ children }) {
     /////////////////////////////////
     const [showOptions, setShowOptions] = useState(false)
     const [showContent, setShowContent] = useState(false);
+    ////////////////////////////////
 
     const widthValue = useRef(new Animated.Value(0)).current;
     const heightValue = useRef(new Animated.Value(0)).current;
+    const boderWidthValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         animateWidth(showOptions);
@@ -35,14 +38,22 @@ function Layout({ children }) {
     const animateWidth = (show) => {
         const targetWidth = show ? 180 : 0;
         const targetHeight = show ? 90 : 0;
+        const targetBorderWidth = show ? 20 : 0;
+
+        Animated.timing(boderWidthValue, {
+            toValue: targetBorderWidth,
+            duration: 100,
+            useNativeDriver: false,
+        }).start();
+
         Animated.timing(widthValue, {
             toValue: targetWidth,
-            duration: 500,
+            duration: 300,
             useNativeDriver: false,
         }).start();
         Animated.timing(heightValue, {
             toValue: targetHeight,
-            duration: 500,
+            duration: 300,
             useNativeDriver: false,
         }).start();
 
@@ -62,13 +73,17 @@ function Layout({ children }) {
         backgroundColor: 'white',
         borderRadius: 8,
         position: 'absolute',
-        top: 35,
-        right: 12,
+        top: 38,
+        right: 14,
         shadowColor: '#000',
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
     };
+
+    const pointerStyles = {
+        borderRightWidth: boderWidthValue, borderTopWidth: boderWidthValue
+    }
 
     const goBack = () => { navigation.goBack() }
 
@@ -81,7 +96,11 @@ function Layout({ children }) {
         setShowContent(false);
     };
 
-    const runTheOption = () => {
+    const runTheOption = (type) => {
+        if (type === "event") {
+            dispatch(showEventModal())
+        }
+        else { }
         closeOptions()
     }
 
@@ -113,13 +132,18 @@ function Layout({ children }) {
                                 showOptions &&
                                 <Animated.View style={animatedStyles} >
                                     {showContent && <>
-                                        <Pressable onPress={runTheOption} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-t-md">
+                                        <Pressable onPress={() => runTheOption("event")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-t-md">
                                             <Text>Create Event</Text>
                                         </Pressable>
-                                        <Pressable onPress={runTheOption} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-b-md">
-                                            <Text>Add Muscle Group</Text>
+                                        <Pressable onPress={() => runTheOption("muscle_set")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-b-md">
+                                            <Text>Add Exercise</Text>
                                         </Pressable>
                                     </>}
+                                    <Animated.View style={pointerStyles} className="w-0 h-0 
+                                    border-solid 
+                                    border-t-transparent 
+                                    border-r-white 
+                                    absolute right-0 -top-[15px]" ></Animated.View>
                                 </Animated.View>
                             }
                         </View>
