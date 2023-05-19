@@ -38,7 +38,7 @@ function Layout({ children }) {
 
     const animateWidth = (show) => {
         const targetWidth = show ? 180 : 0;
-        const targetHeight = show ? 90 : 0;
+        const targetHeight = show ? 60 : 0;
         const targetBorderWidth = show ? 20 : 0;
 
         Animated.timing(boderWidthValue, {
@@ -135,12 +135,12 @@ function Layout({ children }) {
                                 showOptions &&
                                 <Animated.View style={animatedStyles} >
                                     {showContent && <>
-                                        <Pressable onPress={() => runTheOption("event")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-t-md">
+                                        <Pressable onPress={() => runTheOption("event")} className="h-full w-full justify-center items-start px-4 active:bg-gray-100 rounded-md">
                                             <Text>Create Event</Text>
                                         </Pressable>
-                                        <Pressable onPress={() => runTheOption("muscle_set")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-b-md">
+                                        {/* <Pressable onPress={() => runTheOption("muscle_set")} className="h-[50%] w-full justify-center items-start px-4 active:bg-gray-100 rounded-b-md">
                                             <Text>Add Exercise</Text>
-                                        </Pressable>
+                                        </Pressable> */}
                                     </>}
                                     <Animated.View style={pointerStyles} className="w-0 h-0 
                                     border-solid 

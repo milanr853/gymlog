@@ -2,14 +2,16 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     show: false,
+    muscleSet: null
 }
 
 export const exerciseAddModalSlice = createSlice({
     name: 'exerciseModal',
     initialState,
     reducers: {
-        showExerciseModal: (state) => {
+        showExerciseModal: (state, { payload }) => {
             state.show = true
+            state.muscleSet = payload
         },
         hideExerciseModal: (state) => {
             state.show = false
