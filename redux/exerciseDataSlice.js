@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     show: false,
-    exerciseData: null
+    exerciseMinimalData: null
 }
 
 export const exerciseDataModalSlice = createSlice({
@@ -16,7 +16,7 @@ export const exerciseDataModalSlice = createSlice({
             state.show = false
         },
         takeExerciseMinimalData: (state, { payload }) => {
-            state.exerciseData = payload
+            state.exerciseMinimalData = payload
         },
     },
 })

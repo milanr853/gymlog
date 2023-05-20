@@ -12,6 +12,7 @@ import { showExerciseModal } from '../redux/exerciseAddModal'
 import { removeExerciseFromStack } from '../redux/exerciseStackSlice'
 import { eventTypes } from '../constants/Constants'
 import { showExerciseDataModal, takeExerciseMinimalData } from '../redux/exerciseDataSlice'
+import ExerciseDataModal from '../components/ExerciseDataModal'
 
 // multiple muscleSet in an event is known as eventStack 
 
@@ -85,6 +86,9 @@ function EventScreen() {
         dispatch(showExerciseDataModal())
         dispatch(takeExerciseMinimalData({ exercise, muscleSet, id: day }))
     }
+
+    // C.R.D api for event screen
+    // 3 api
 
 
 
@@ -181,6 +185,7 @@ function EventScreen() {
 
             <SpecificExerciseModal />
             <AddMuscleSetModal />
+            <ExerciseDataModal />
         </Layout>
     )
 }

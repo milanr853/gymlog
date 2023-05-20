@@ -96,6 +96,11 @@ function HomeScreen() {
     const goToEventPage = (day) => {
         navigation.navigate("Event", { day })
     }
+    //////////////////////////
+
+    // C.R api for home screen
+    // 2 apis
+
 
 
     return (

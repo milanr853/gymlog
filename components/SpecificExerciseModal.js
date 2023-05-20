@@ -19,6 +19,7 @@ function SpecificExerciseModal() {
         setInput('')
     }
 
+    // api will be called
     const AddExerciseToStack = () => {
         // input - perform some action
         if (!input) return
