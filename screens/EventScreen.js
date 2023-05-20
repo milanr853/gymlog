@@ -21,13 +21,13 @@ function EventScreen() {
 
     const dispatch = useDispatch()
 
+    const defaultEventData = { title: 'No event', color: "bg-orange-400", bg: "bg-gray-100" }
+
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
     const [accordion, setAccordion] = useState(false)
     const [muscleGrp, setMuscleGrp] = useState(null)
-    const [event, setEvent] = useState(defaultEventData)
-
-    const defaultEventData = { title: 'No event', color: "bg-orange-400", bg: "bg-gray-100" }
+    const [event, setEvent] = useState([defaultEventData])
 
     const inputDate = moment(day);
     const output = inputDate.format('dddd, D MMMM, YYYY');
@@ -64,9 +64,12 @@ function EventScreen() {
 
     ////////////////////////
     useEffect(() => {
-        const eventObj = eventTypes.find(obj => obj?.title === eventStack[0]?.title)
-        if (eventObj) setEvent(eventObj)
-        else setEvent(defaultEventData)
+        const eventArr = eventTypes.filter(obj => {
+            const muscleSet = eventStack.find(event => event.title === obj.title)
+            if (muscleSet) return obj
+        })
+        if (eventArr.length) setEvent(eventArr)
+        else setEvent([defaultEventData])
     }, [eventStack.length])
 
 
@@ -84,12 +87,28 @@ function EventScreen() {
     return (
         <Layout>
             <View className="flex-1 bg-white">
-                <View className={`h-[30%] w-full items-center justify-center ${event?.bg}`}>
-                    <Text className='font-extrabold italic text-6xl text-gray-200'>{event?.title}</Text>
+                <View className="flex-row h-[30%] w-full">
+                    {
+                        event.map(obj => {
+                            return (
+                                <View key={obj.title} className={`h-full flex-1 items-center justify-center ${obj?.bg}`}>
+                                    <Text className='font-extrabold italic text-6xl text-gray-200'>
+                                        {event.length >= 3 ?
+                                            obj?.title.slice(0, 1) :
+                                            event.length === 2 ?
+                                                obj?.title.length <= 5 ? obj.title : obj?.title.slice(0, 3) + "..."
+                                                : event.length === 1 && obj?.title
+                                        }
+                                    </Text>
+                                </View>
+                            )
+                        })
+                    }
                 </View>
+
                 <ScrollView className='flex-1 p-4 space-y-8'>
                     <View className="flex-row space-x-4 items-center">
-                        <View className={`w-[20px] h-[20px] ${event?.color} rounded-md`}></View>
+                        {event.map(obj => <View key={obj.title} className={`w-[20px] h-[20px] ${obj?.color} rounded-md`}></View>)}
                         <Text className="text-lg">{output}</Text>
                     </View>
 

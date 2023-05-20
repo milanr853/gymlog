@@ -21,6 +21,7 @@ function SpecificExerciseModal() {
 
     const AddExerciseToStack = () => {
         // input - perform some action
+        if (!input) return
         const payload = { title: muscleSet, exercise: input }
         dispatch(addExerciseToStack(payload))
         closeModal()
