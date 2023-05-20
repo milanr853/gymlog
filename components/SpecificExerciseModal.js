@@ -37,8 +37,8 @@ function SpecificExerciseModal() {
 
     return (
         show && <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center">
-            <TouchableOpacity activeOpacity={1} className="absolute top-3 right-2 justify-center items-center w-[40px] h-[40px] bg-slate-900 rounded-md border-4 border-white" onPress={closeModal}>
-                <Ionicons name="close-outline" size={35} color='white'></Ionicons>
+            <TouchableOpacity activeOpacity={1} className="absolute top-3 right-2 justify-center items-center w-[42px] h-[42px] bg-slate-600 rounded-md border-4 border-white" onPress={closeModal}>
+                <Ionicons name="close-outline" size={32} color='white'></Ionicons>
             </TouchableOpacity>
 
             <View className="py-4 px-4 space-y-6 shadow-md  bg-white rounded-md justify-center items-center w-[90%]">
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         padding: 10,
-        outlineColor: "transparent",
-        outlineStyle: "none"
+        // outlineColor: "transparent",
+        // outlineStyle: "none"
     },
 });
 

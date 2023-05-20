@@ -117,7 +117,7 @@ function EventScreen() {
                         <Text className="text-lg">{output}</Text>
                     </View>
 
-                    <View className="w-full px-10 pt-8 pb-4 space-y-8">
+                    <View className="w-full px-9 pt-8 pb-4 space-y-8">
                         {eventStack.map(muscle => {
                             return (
                                 <View key={muscle.title} className="bg-gray-200 border border-gray-400 w-full rounded-sm px-2 py-1" >
