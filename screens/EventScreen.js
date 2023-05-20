@@ -21,13 +21,11 @@ function EventScreen() {
 
     const dispatch = useDispatch()
 
-    const defaultEventData = { title: 'No event', color: "bg-orange-400", bg: "bg-gray-100" }
-
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
     const [accordion, setAccordion] = useState(false)
     const [muscleGrp, setMuscleGrp] = useState(null)
-    const [event, setEvent] = useState([defaultEventData])
+    const [event, setEvent] = useState([])
 
     const inputDate = moment(day);
     const output = inputDate.format('dddd, D MMMM, YYYY');
@@ -69,7 +67,7 @@ function EventScreen() {
             if (muscleSet) return obj
         })
         if (eventArr.length) setEvent(eventArr)
-        else setEvent([defaultEventData])
+        else setEvent([])
     }, [eventStack.length])
 
 
@@ -89,9 +87,10 @@ function EventScreen() {
             <View className="flex-1 bg-white">
                 <View className="flex-row h-[30%] w-full">
                     {
-                        event.map(obj => {
+                        event.length ? event.map(obj => {
+                            console.log(obj.bg)
                             return (
-                                <View key={obj.title} className={`h-full flex-1 items-center justify-center ${obj?.bg}`}>
+                                <View key={obj.title} className={`h-full flex-1 items-center justify-center bg-${obj?.bg}`}>
                                     <Text className='font-extrabold italic text-6xl text-gray-200'>
                                         {event.length >= 3 ?
                                             obj?.title.slice(0, 1) :
@@ -103,12 +102,18 @@ function EventScreen() {
                                 </View>
                             )
                         })
+                            :
+                            <View className={`h-full flex-1 items-center justify-center bg-gray-100`}>
+                                <Text className='font-extrabold italic text-6xl text-gray-200'>
+                                    No event
+                                </Text>
+                            </View>
                     }
                 </View>
 
                 <ScrollView className='flex-1 p-4 space-y-8'>
                     <View className="flex-row space-x-4 items-center">
-                        {event.map(obj => <View key={obj.title} className={`w-[20px] h-[20px] ${obj?.color} rounded-md`}></View>)}
+                        {event.length ? event.map(obj => <View key={obj.title} className={`w-[20px] h-[20px] bg-${obj?.color} rounded-md`}></View>) : <View className={`w-[20px] h-[20px] bg-orange-400 rounded-md`}></View>}
                         <Text className="text-lg">{output}</Text>
                     </View>
 
