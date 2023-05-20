@@ -6,7 +6,8 @@ import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showEventModal } from "../redux/eventViewModalSlice"
-
+import { allColors } from "../constants/Variable"
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 function Layout({ children }) {
@@ -23,127 +24,41 @@ function Layout({ children }) {
     const { name } = useRoute()
 
     /////////////////////////////////
-    const [showOptions, setShowOptions] = useState(false)
-    const [showContent, setShowContent] = useState(false);
-    ////////////////////////////////
-
-    const widthValue = useRef(new Animated.Value(0)).current;
-    const heightValue = useRef(new Animated.Value(0)).current;
-    const boderWidthValue = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        animateWidth(showOptions);
-    }, [showOptions]);
-
-    const animateWidth = (show) => {
-        const targetWidth = show ? 180 : 0;
-        const targetHeight = show ? 60 : 0;
-        const targetBorderWidth = show ? 20 : 0;
-
-        Animated.timing(boderWidthValue, {
-            toValue: targetBorderWidth,
-            duration: 100,
-            useNativeDriver: false,
-        }).start();
-
-        Animated.timing(widthValue, {
-            toValue: targetWidth,
-            duration: 300,
-            useNativeDriver: false,
-        }).start();
-        Animated.timing(heightValue, {
-            toValue: targetHeight,
-            duration: 300,
-            useNativeDriver: false,
-        }).start();
-
-        (() => {
-            // After the animation completes, show the content
-            setTimeout(() => {
-                setShowContent(show);
-            }, 500);
-        })()
-    };
-
-    const animatedStyles = {
-        width: widthValue,
-        height: heightValue,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 8,
-        position: 'absolute',
-        top: 38,
-        right: 14,
-        shadowColor: '#000',
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    };
-
-    const pointerStyles = {
-        borderRightWidth: boderWidthValue, borderTopWidth: boderWidthValue
-    }
-
     const goBack = () => { navigation.goBack() }
-
-    const openOptions = () => {
-        setShowOptions(true);
-    };
-
-    const closeOptions = () => {
-        setShowOptions(false);
-        setShowContent(false);
-    };
 
     const runTheOption = () => {
         dispatch(showEventModal())
-        closeOptions()
     }
 
 
 
     return (
         < >
-            <TouchableWithoutFeedback onPress={closeOptions}>
-                <View className="bg-yellow-200 w-full z-10 fixed h-[60px] flex-row items-center px-4 justify-between">
-                    <View className="flex-row items-center space-x-2">
-                        <TouchableOpacity >
-                            <Ionicons name='reorder-three-outline' size={32} color='black' />
-                        </TouchableOpacity>
-                        <Text className="font-bold text-lg">Gym Log</Text>
-                    </View>
-
-                    {/* for calendar view */}
-                    {name === "Home" && <TouchableOpacity className="flex-row" onPress={() => { dispatch(showWeekModal()) }}>
-                        <Ionicons name="duplicate-outline" size={28} color='black'></Ionicons>
-                    </TouchableOpacity>}
-
-                    {/* for calendar view */}
-                    {name === "Event" &&
-                        <View className="flex-row space-x-4 relative" >
-                            <Ionicons name="calendar-outline" size={28} color='black' onPress={goBack}></Ionicons>
-                            <Ionicons name="ellipsis-vertical-outline" size={27} color='black' onPress={openOptions}></Ionicons>
-
-                            {
-                                showOptions &&
-                                <Animated.View style={animatedStyles} >
-                                    {showContent && <>
-                                        <Pressable onPress={runTheOption} className="h-full w-full justify-center items-start px-4 active:bg-gray-100 rounded-md">
-                                            <Text>Create Event</Text>
-                                        </Pressable>
-                                    </>}
-                                    <Animated.View style={pointerStyles} className="w-0 h-0 
-                                    border-solid 
-                                    border-t-transparent 
-                                    border-r-white 
-                                    absolute right-0 -top-[15px]" ></Animated.View>
-                                </Animated.View>
-                            }
-                        </View>
-                    }
+            <LinearGradient end={{ x: 0.6, y: 1.5 }} start={{ x: 0.8, y: -0.25 }} colors={[allColors.headerbg2, allColors.headerbg]} style={{ backgroundColor: allColors.headerbg }} className=" w-full z-10 fixed h-[60px] flex-row items-center px-4 justify-between">
+                <View className="flex-row justify-between items-center space-x-2">
+                    <TouchableOpacity >
+                        <Ionicons name='reorder-three-outline' size={32} color={allColors.iconcolor} />
+                    </TouchableOpacity>
+                    {/* <Text style={{ color: allColors.textcolor }} className="font-bold text-xl">Gym Log</Text> */}
                 </View>
-            </TouchableWithoutFeedback>
+
+                {/* for calendar view */}
+                {
+                    name === "Home" &&
+                    <TouchableOpacity className="flex-row" onPress={() => { dispatch(showWeekModal()) }}>
+                        <Ionicons name="duplicate-outline" size={28} color={allColors.iconcolor}></Ionicons>
+                    </TouchableOpacity>
+                }
+
+                {/* for event view */}
+                {name === "Event" &&
+                    <View className="flex-row space-x-4 relative" >
+                        <Ionicons name="calendar-outline" size={28} color={allColors.iconcolor} onPress={goBack}></Ionicons>
+                        {/* <Ionicons name="ellipsis-vertical-outline" size={27} color={allColors.iconcolor} onPress={runTheOption}></Ionicons> */}
+                        <Ionicons name="body-outline" size={26} color={allColors.iconcolor} onPress={runTheOption}></Ionicons>
+                    </View>
+                }
+            </LinearGradient>
 
             <StatusBar style='auto' hidden={true} />
 

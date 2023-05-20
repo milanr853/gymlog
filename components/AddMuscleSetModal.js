@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showExerciseModal } from '../redux/exerciseAddModal'
 import { eventTypes } from '../constants/Constants'
 import ModalWrapper from './ModalWrapper';
+import { allColors } from '../constants/Variable'
 
 
 function AddMuscleSetModal() {
@@ -32,7 +33,7 @@ function AddMuscleSetModal() {
         <ModalWrapper closeModal={closeModal}>
 
 
-            <View className="w-[90%] p-4 flex-row flex-wrap justify-around items-center bg-white rounded-md">
+            <View style={{ backgroundColor: allColors.modalcontainer }} className="w-[90%] p-4 flex-row flex-wrap justify-around items-center rounded-md">
                 {
                     eventTypes.map((muscle, ind) => {
                         return (
@@ -41,7 +42,7 @@ function AddMuscleSetModal() {
                                 activeOpacity={1}
                                 className={`
                                 my-4 
-                            w-[100px] h-[100px] border-4 border-slate-600 rounded-md 
+                            w-[100px] h-[100px] border-4 border-white rounded-md 
                             items-center justify-between p-4 
                             `
                                 }
@@ -57,9 +58,10 @@ function AddMuscleSetModal() {
                 }
             </View>
 
-            {eventStack.length === 3 ? <View className="w-[90%] bg-white rounded-sm py-1 mt-8 flex-row justify-center items-center">
-                <Text className="text-red-400">Maximum muscles selected for this event</Text>
-            </View> : <></>}
+            {eventStack.length === 3 ?
+                <View className="w-[90%] bg-[#007383] rounded-sm py-1 mt-8 flex-row justify-center items-center">
+                    <Text className="text-gray-300">Maximum muscles selected for this event</Text>
+                </View> : <></>}
 
 
         </ModalWrapper>

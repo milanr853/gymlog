@@ -5,6 +5,8 @@ import { hideWeekModal } from '../redux/weekModalViewSlice';
 import { useDispatch } from "react-redux"
 import moment from 'moment';
 import ModalWrapper from './ModalWrapper';
+import { allColors } from "../constants/Variable"
+
 
 
 
@@ -48,11 +50,11 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
         <ModalWrapper closeModal={closeModal}>
 
 
-            <View className="w-[75%] bg-white rounded-md items-center text-lg space-y-4 mb-4">
-                <View className="border-b border-gray-200 w-full items-center justify-center py-1">
-                    <Text className="text-gray-400 font-bold">Select no. of weeks</Text>
+            <View style={{ backgroundColor: allColors.modalcontainer }} className="w-[90%] rounded-md items-center text-lg pb-4 space-y-4 mb-8">
+                <View className="border-b border-gray-200 w-full items-center justify-center py-3">
+                    <Text style={{ color: allColors.textcolor }} className="font-bold">Select no. of weeks</Text>
                 </View>
-                <View className="border border-blue-500 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
+                <View className="border border-blue-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
                     <RollPickerNative
                         items={weeksArr}
                         containerHeight={38}
@@ -64,9 +66,10 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
                 </View>
             </View>
 
-            {weeks >= 1 && <TouchableOpacity activeOpacity={0.7} className="w-[75%] bg-green-500 rounded-md items-center justify-center  py-2" onPress={setNumOfWeeks}>
-                <Text className="text-white text-xl ">Confirm</Text>
-            </TouchableOpacity>}
+            {weeks >= 1 &&
+                <TouchableOpacity style={{ backgroundColor: allColors.buttoncolor }} activeOpacity={0.7} className="w-[90%] rounded-md items-center justify-center  py-2" onPress={setNumOfWeeks}>
+                    <Text style={{ color: allColors.textcolor }} className="text-xl ">Confirm</Text>
+                </TouchableOpacity>}
 
 
         </ModalWrapper>

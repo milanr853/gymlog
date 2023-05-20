@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { showWeekModal } from '../redux/weekModalViewSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { useNavigation } from '@react-navigation/native';
+import { markedDatesColorCodes } from '../constants/Constants';
+import { allColors } from "../constants/Variable"
 
 
 
@@ -22,7 +24,6 @@ function HomeScreen() {
 
     const weekModalView = useSelector(store => store.weekModalViewReducer.show)
 
-    const markedDatesColorCodes = ["#1B9C85", "#ffa500", '#5C469C', "#CBB279", "#088395", "#E86A33", "#393646"]
     let generateRandomMarkerColor = () => markedDatesColorCodes[Math.floor(Math.random() * markedDatesColorCodes.length)];
     let randomColor = generateRandomMarkerColor()
 
@@ -126,11 +127,27 @@ function HomeScreen() {
                 markingType={'period'}
                 minDate={currentDate}
 
-                onDayLongPress={day => {
-                    setDayObject(day)
-                    dispatch(showWeekModal())
-                }}
+                // onDayLongPress={day => {
+                //     setDayObject(day)
+                //     dispatch(showWeekModal())
+                // }}
                 style={{ marginBottom: 24 }}
+
+                theme={
+                    {
+                        calendarBackground: allColors.calendarbg,
+                        dayTextColor: allColors.calendartext,
+                        textDisabledColor: allColors.calendartextdisable,
+                        monthTextColor: allColors.calendartext,
+
+                        textDayFontWeight: '300',
+                        textMonthFontWeight: 'bold',
+                        textDayHeaderFontWeight: '300',
+                        textDayFontSize: 16,
+                        textMonthFontSize: 16,
+                        textDayHeaderFontSize: 16
+                    }
+                }
             />
 
             {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />}

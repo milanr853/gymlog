@@ -42,7 +42,7 @@ function SpecificExerciseModal() {
 
 
 
-            <View className="py-4 px-4 space-y-6 shadow-md  bg-white rounded-md justify-center items-center w-[90%]">
+            <View className="py-4 px-4 space-y-6 shadow-md bg-white rounded-md justify-center items-center w-[90%]">
                 <View className="w-full flex-row justify-start"><Text className="font-semibold text-lg">{muscleSet} Exercise Name</Text></View>
                 <View className="bg-white w-full h-[40px] rounded-md border border-black outline-none">
                     <TextInput
