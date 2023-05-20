@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showExerciseModal } from '../redux/exerciseAddModal'
 import { removeExerciseFromStack } from '../redux/exerciseStackSlice'
 import { eventTypes } from '../constants/Constants'
+import { showExerciseDataModal, takeExerciseMinimalData } from '../redux/exerciseDataSlice'
 
 // multiple muscleSet in an event is known as eventStack 
 
@@ -79,6 +80,11 @@ function EventScreen() {
         dispatch(removeExerciseFromStack(muscleName))
     }
 
+    ///////////////////////////////////////
+    const openExerciseDataModal = (exercise, muscleSet) => {
+        dispatch(showExerciseDataModal())
+        dispatch(takeExerciseMinimalData({ exercise, muscleSet, id: day }))
+    }
 
 
 
@@ -156,7 +162,7 @@ function EventScreen() {
                                                 {
                                                     muscle.exercises.map((exercise, index) => {
                                                         return (
-                                                            <TouchableOpacity key={exercise} className="w-full h-[35px] border-t border-gray-400 flex-row items-center">
+                                                            <TouchableOpacity onPress={() => openExerciseDataModal(exercise, muscle.title)} key={exercise} className="w-full h-[35px] border-t border-gray-400 flex-row items-center">
                                                                 <Text className="text-gray-400 ">{index + 1} . {exercise}</Text>
                                                             </TouchableOpacity>
                                                         )

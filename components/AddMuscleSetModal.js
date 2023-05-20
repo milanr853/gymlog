@@ -1,10 +1,10 @@
 import React from 'react'
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { hideEventModal } from "../redux/eventViewModalSlice"
 import { useDispatch, useSelector } from 'react-redux'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { showExerciseModal } from '../redux/exerciseAddModal'
 import { eventTypes } from '../constants/Constants'
+import ModalWrapper from './ModalWrapper';
 
 
 function AddMuscleSetModal() {
@@ -28,11 +28,9 @@ function AddMuscleSetModal() {
 
 
     return (
-        show && <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center ">
+        show &&
+        <ModalWrapper closeModal={closeModal}>
 
-            <TouchableOpacity activeOpacity={1} className="absolute top-3 right-2 flex justify-center items-center w-[42px] h-[42px] bg-slate-600 rounded-md border-4 border-white" onPress={closeModal}>
-                <Ionicons name="close-outline" size={32} color='white'></Ionicons>
-            </TouchableOpacity>
 
             <View className="w-[90%] p-4 flex-row flex-wrap justify-around items-center bg-white rounded-md">
                 {
@@ -62,7 +60,9 @@ function AddMuscleSetModal() {
             {eventStack.length === 3 ? <View className="w-[90%] bg-white rounded-sm py-1 mt-8 flex-row justify-center items-center">
                 <Text className="text-red-400">Maximum muscles selected for this event</Text>
             </View> : <></>}
-        </View>
+
+
+        </ModalWrapper>
     )
 }
 

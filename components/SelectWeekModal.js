@@ -3,8 +3,8 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
 import { useDispatch } from "react-redux"
-import Ionicons from '@expo/vector-icons/Ionicons';
 import moment from 'moment';
+import ModalWrapper from './ModalWrapper';
 
 
 
@@ -45,7 +45,9 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
 
 
     return (
-        <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center">
+        <ModalWrapper closeModal={closeModal}>
+
+
             <View className="w-[75%] bg-white rounded-md items-center text-lg space-y-4 mb-4">
                 <View className="border-b border-gray-200 w-full items-center justify-center py-1">
                     <Text className="text-gray-400 font-bold">Select no. of weeks</Text>
@@ -66,12 +68,8 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
                 <Text className="text-white text-xl ">Confirm</Text>
             </TouchableOpacity>}
 
-            <TouchableOpacity className="absolute top-[25%] justify-center items-center bg-white w-[45px] h-[45px] rounded-full" activeOpacity={1} onPress={closeModal}>
-                <View className="justify-center items-center bg-red-400 w-[40px] h-[40px] rounded-full">
-                    <Ionicons name="close-outline" size={32} color='white'></Ionicons>
-                </View>
-            </TouchableOpacity>
-        </View>
+
+        </ModalWrapper>
     )
 }
 
