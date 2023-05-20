@@ -6,10 +6,10 @@ import shoulder from "../assets/images/shoulder.png"
 import leg from "../assets/images/legs.png"
 
 export const eventTypes = [
-    { title: "Chest", uri: chest, color: "orange-400", bg: "orange-400" },
-    { title: "Back", uri: back, color: "purple-400", bg: "purple-400" },
-    { title: "Abs", uri: abs, color: "red-400", bg: "red-400" },
-    { title: "Legs", uri: leg, color: "green-400", bg: "green-400" },
-    { title: "Shoulder", uri: shoulder, color: "slate-400", bg: "slate-400" },
-    { title: "Arms", uri: arm, color: "blue-400", bg: "blue-400" }
+    { title: "Chest", uri: chest, color: "#fb923c", bg: "#fb923c" },
+    { title: "Back", uri: back, color: "#c084fc", bg: "#c084fc" },
+    { title: "Abs", uri: abs, color: "#f87171", bg: "#f87171" },
+    { title: "Legs", uri: leg, color: "#4ade80", bg: "#4ade80" },
+    { title: "Shoulder", uri: shoulder, color: "#94a3b8", bg: "#94a3b8" },
+    { title: "Arms", uri: arm, color: "#60a5fa", bg: "#60a5fa" }
 ]

@@ -38,13 +38,12 @@ function AddMuscleSetModal() {
                 {
                     eventTypes.map((muscle, ind) => {
                         return (
-                            <TouchableOpacity key={muscle.title}
+                            <TouchableOpacity style={{ backgroundColor: muscle.bg }} key={muscle.title}
                                 onPress={() => OpenAddExerciseToStackModal(muscle.title)}
                                 activeOpacity={1}
                                 className={`
                                 my-4 
                             w-[100px] h-[100px] border-4 border-slate-600 rounded-md 
-                            bg-${muscle.bg} 
                             items-center justify-between p-4 
                             `
                                 }
@@ -67,14 +66,6 @@ function AddMuscleSetModal() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        padding: 16,
-        backgroundColor: '#f5f5f5',
-        justifyContent: "space-around",
-        alignItems: 'center'
-    },
-});
 
 
 export default AddMuscleSetModal

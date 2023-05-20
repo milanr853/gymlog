@@ -88,9 +88,8 @@ function EventScreen() {
                 <View className="flex-row h-[30%] w-full">
                     {
                         event.length ? event.map(obj => {
-                            console.log(obj.bg)
                             return (
-                                <View key={obj.title} className={`h-full flex-1 items-center justify-center bg-${obj?.bg}`}>
+                                <View style={{ backgroundColor: obj?.bg }} key={obj.title} className={`h-full flex-1 items-center justify-center`}>
                                     <Text className='font-extrabold italic text-6xl text-gray-200'>
                                         {event.length >= 3 ?
                                             obj?.title.slice(0, 1) :
@@ -113,7 +112,7 @@ function EventScreen() {
 
                 <ScrollView className='flex-1 p-4 space-y-8'>
                     <View className="flex-row space-x-4 items-center">
-                        {event.length ? event.map(obj => <View key={obj.title} className={`w-[20px] h-[20px] bg-${obj?.color} rounded-md`}></View>) : <View className={`w-[20px] h-[20px] bg-orange-400 rounded-md`}></View>}
+                        {event.length ? event.map(obj => <View style={{ backgroundColor: obj?.bg }} key={obj.title} className={`w-[20px] h-[20px] rounded-md`}></View>) : <View className={`w-[20px] h-[20px] bg-orange-400 rounded-md`}></View>}
                         <Text className="text-lg">{output}</Text>
                     </View>
 
