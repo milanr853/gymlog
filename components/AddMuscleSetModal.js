@@ -41,7 +41,7 @@ function AddMuscleSetModal() {
                                 activeOpacity={1}
                                 className={`
                             w-[100px] h-[100px] border-4 border-slate-600 rounded-md 
-                            ${muscle.bg} 
+                            bg-${muscle.bg} 
                             items-center justify-between p-4 
                             ${ind < 3 ? "mb-8" : ""} ${ind === 2 || ind === 5 ? "" : "mr-5"}`
                                 }
