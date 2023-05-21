@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Text, TouchableOpacity, View } from 'react-native'
 import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
@@ -55,24 +55,27 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
 
 
             <View className="w-[90%] rounded-md items-center text-lg pb-4 space-y-4 mb-8 bg-white">
-                <View className="border-b border-gray-200 w-full items-center justify-center py-3">
-                    <Text className="font-bold text-gray-400">Select no. of weeks</Text>
+                <View className="border-b border-gray-200 w-full items-center justify-center py-4">
+                    <Text className="font-bold text-gray-400">SELECT NO. OF WEEKS</Text>
                 </View>
-                <View className="border border-gray-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
-                    <RollPickerNative
-                        items={weeksArr}
-                        containerHeight={38}
-                        selectHeight={24}
-                        style={{ borderRadius: 8 }}
-                        onIndexChange={(index) => { setWeeks(index) }}
-                        index={weeks}
-                    />
+
+                <View className="p-2 w-full justify-center items-center">
+                    <View className="border border-gray-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
+                        <RollPickerNative
+                            items={weeksArr}
+                            containerHeight={38}
+                            selectHeight={24}
+                            style={{ borderRadius: 8 }}
+                            onIndexChange={(index) => { setWeeks(index) }}
+                            index={weeks}
+                        />
+                    </View>
                 </View>
             </View>
 
             {weeks >= 1 &&
-                <TouchableOpacity style={{ backgroundColor: "#576cbc" }} activeOpacity={1} className="w-[90%] rounded-md items-center justify-center  py-2" onPress={setNumOfWeeks}>
-                    <Text style={{ color: allColors.textcolor }} className="text-xl ">Confirm</Text>
+                <TouchableOpacity style={{ backgroundColor: "#576cbc" }} activeOpacity={1} className="w-[90%] h-[40px] rounded-sm items-center justify-center  py-2" onPress={setNumOfWeeks}>
+                    <Text style={{ color: allColors.textcolor }} >CONFIRM</Text>
                 </TouchableOpacity>
             }
 

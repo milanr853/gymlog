@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { ScrollView, View, Text, Animated, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Text, Animated, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { showExerciseModal } from '../redux/exerciseAddModal';
@@ -85,7 +85,7 @@ function EventScreenScrollView({ event, eventStack }) {
                                 {
                                     accordion && muscleGrp?.title === muscle.title ?
                                         <View className="flex-row space-x-4 items-center">
-                                            <View className="flex-row space-x-2">
+                                            <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
                                                 </View>
@@ -93,11 +93,14 @@ function EventScreenScrollView({ event, eventStack }) {
                                                     <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
                                                 </View>
                                             </View>
-                                            <Ionicons onPress={() => hideExercises(muscle)} name="chevron-up-outline" size={17} color="gray"></Ionicons>
+
+                                            <Pressable onPress={() => hideExercises(muscle)} className="justify-center items-center w-[20px] h-[28px] rounded-sm">
+                                                <Ionicons name="chevron-up-outline" size={17} color="gray"></Ionicons>
+                                            </Pressable>
                                         </View>
                                         :
                                         <View className="flex-row space-x-4 items-center">
-                                            <View className="flex-row space-x-2">
+                                            <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
                                                 </View>
@@ -105,10 +108,14 @@ function EventScreenScrollView({ event, eventStack }) {
                                                     <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
                                                 </View>
                                             </View>
-                                            <Ionicons onPress={() => showExercises(muscle)} name="chevron-down-outline" size={17} color="gray"></Ionicons>
+
+                                            <Pressable onPress={() => showExercises(muscle)} className="justify-center items-center w-[20px] h-[28px] rounded-sm">
+                                                <Ionicons name="chevron-down-outline" size={17} color="gray"></Ionicons>
+                                            </Pressable>
                                         </View>
                                 }
                             </View>
+
 
                             {
                                 muscle.title === muscleGrp?.title ?

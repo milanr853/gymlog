@@ -9,7 +9,8 @@ const exerciseData = {
     note: ["fgbbf", "gbtbfn fgsrtsrtsrtn tbrtbtrrt rv", "zfgfnttr"],
     sets: 4,
     reps: [6, 6, 8, 6],
-    weights: [30, 35, 40, 45]
+    weights: [30, 35, 40, 45],
+    perform: [{ set: 1, rep: 8, weight: 30 }, { set: 2, rep: 8, weight: 35 }, { set: 3, rep: 6, weight: 40 }]
 }
 
 // exercise data
