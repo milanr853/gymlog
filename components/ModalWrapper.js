@@ -21,6 +21,7 @@ function ModalWrapper({ closeModal, children }) {
 
 
 
+
     return (
         <Animated.View style={{ backgroundColor: allColors.modalbg, opacity: opacityValue }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center">
 

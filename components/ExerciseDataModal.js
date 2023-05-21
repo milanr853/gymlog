@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 function ExerciseDataModal() {
-    const { show, exerciseMinimalData } = useSelector(store => store.exerciseDataModalReducer)
+    const { exerciseData } = useSelector(store => store.exerciseDataModalReducer)
 
     const [length, setLength] = useState(3)
     const [rep, setRep] = useState('')
@@ -46,8 +46,9 @@ function ExerciseDataModal() {
 
 
 
+
     return (
-        show &&
+        // show &&
         <ModalWrapper closeModal={closeModal}>
 
             <View className="w-[90%] bg-white rounded-md h-[70%] relative" >

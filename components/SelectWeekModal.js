@@ -48,6 +48,7 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
 
 
 
+
     return (
         show &&
         <ModalWrapper closeModal={closeModal}>

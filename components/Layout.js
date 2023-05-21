@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { View, Text, TouchableOpacity, Pressable, Animated, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Pressable, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import { useDispatch } from "react-redux"
 import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
@@ -29,6 +29,7 @@ function Layout({ children }) {
     const runTheOption = () => {
         dispatch(showEventModal())
     }
+
 
 
 

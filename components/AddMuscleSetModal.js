@@ -9,7 +9,7 @@ import { allColors } from '../constants/Variable'
 
 
 function AddMuscleSetModal() {
-    const show = useSelector(store => store.eventModalViewReducer.show)
+    // const show = useSelector(store => store.eventModalViewReducer.show)
 
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
@@ -31,8 +31,9 @@ function AddMuscleSetModal() {
 
 
 
+
     return (
-        show &&
+        // show &&
         <ModalWrapper closeModal={closeModal}>
 
 
