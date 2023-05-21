@@ -20,6 +20,9 @@ function AddMuscleSetModal() {
             dispatch(hideEventModal())
             dispatch(showExerciseModal(muscleName))
         }
+        else {
+            alert('Maximum muscles selected for this event')
+        }
     }
 
     const closeModal = () => {
@@ -57,11 +60,6 @@ function AddMuscleSetModal() {
                     })
                 }
             </View>
-
-            {eventStack.length === 3 ?
-                <View className="w-[90%] bg-[#007383] rounded-sm py-1 mt-8 flex-row justify-center items-center">
-                    <Text className="text-gray-300">Maximum muscles selected for this event</Text>
-                </View> : <></>}
 
 
         </ModalWrapper>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Button, Text, TouchableOpacity, View } from 'react-native'
 import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import moment from 'moment';
 import ModalWrapper from './ModalWrapper';
 import { allColors } from "../constants/Variable"
@@ -11,6 +11,8 @@ import { allColors } from "../constants/Variable"
 
 
 function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
+    const show = useSelector(store => store.weekModalViewReducer.show)
+
     const [weeks, setWeeks] = useState(0);
     const weeksArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
@@ -47,14 +49,15 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
 
 
     return (
+        show &&
         <ModalWrapper closeModal={closeModal}>
 
 
-            <View style={{ backgroundColor: allColors.modalcontainer }} className="w-[90%] rounded-md items-center text-lg pb-4 space-y-4 mb-8">
+            <View className="w-[90%] rounded-md items-center text-lg pb-4 space-y-4 mb-8 bg-white">
                 <View className="border-b border-gray-200 w-full items-center justify-center py-3">
-                    <Text style={{ color: allColors.textcolor }} className="font-bold">Select no. of weeks</Text>
+                    <Text className="font-bold text-gray-400">Select no. of weeks</Text>
                 </View>
-                <View className="border border-blue-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
+                <View className="border border-gray-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
                     <RollPickerNative
                         items={weeksArr}
                         containerHeight={38}
@@ -67,9 +70,10 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
             </View>
 
             {weeks >= 1 &&
-                <TouchableOpacity style={{ backgroundColor: allColors.buttoncolor }} activeOpacity={0.7} className="w-[90%] rounded-md items-center justify-center  py-2" onPress={setNumOfWeeks}>
+                <TouchableOpacity style={{ backgroundColor: "#576cbc" }} activeOpacity={1} className="w-[90%] rounded-md items-center justify-center  py-2" onPress={setNumOfWeeks}>
                     <Text style={{ color: allColors.textcolor }} className="text-xl ">Confirm</Text>
-                </TouchableOpacity>}
+                </TouchableOpacity>
+            }
 
 
         </ModalWrapper>
