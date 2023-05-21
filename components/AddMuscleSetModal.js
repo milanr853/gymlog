@@ -1,5 +1,5 @@
-import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Image, Text, TouchableOpacity, View, Animated } from 'react-native'
 import { hideEventModal } from "../redux/eventViewModalSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { showExerciseModal } from '../redux/exerciseAddModal'
@@ -9,7 +9,7 @@ import { allColors } from '../constants/Variable'
 
 
 function AddMuscleSetModal() {
-    const show = useSelector(store => store.eventModalViewReducer.show)
+    // const show = useSelector(store => store.eventModalViewReducer.show)
 
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
@@ -20,20 +20,37 @@ function AddMuscleSetModal() {
             dispatch(hideEventModal())
             dispatch(showExerciseModal(muscleName))
         }
+        else {
+            alert('Maximum muscles selected for this event')
+        }
     }
 
     const closeModal = () => {
         dispatch(hideEventModal())
     }
 
+    ////////////////////////////
+    // const opacityValue = useRef(new Animated.Value(0)).current;
+
+    // useEffect(() => {
+    //     const opacityAnimation = Animated.timing(opacityValue, {
+    //         toValue: 1,
+    //         duration: 75,
+    //         useNativeDriver: true,
+    //     });
+    //     opacityAnimation.start();
+    //     return () => opacityAnimation.stop();
+    // }, []);
+    // style={{ opacity: opacityValue }}
+
 
 
     return (
-        show &&
+        // show &&
         <ModalWrapper closeModal={closeModal}>
 
 
-            <View style={{ backgroundColor: allColors.modalcontainer }} className="w-[90%] p-4 flex-row flex-wrap justify-around items-center rounded-md">
+            <View className="w-[90%] bg-white p-4 flex-row flex-wrap justify-around items-center rounded-md">
                 {
                     eventTypes.map((muscle, ind) => {
                         return (
@@ -42,7 +59,7 @@ function AddMuscleSetModal() {
                                 activeOpacity={1}
                                 className={`
                                 my-4 
-                            w-[100px] h-[100px] border-4 border-white rounded-md 
+                            w-[100px] h-[100px] border-4 border-gray-300 rounded-md 
                             items-center justify-between p-4 
                             `
                                 }
@@ -57,11 +74,6 @@ function AddMuscleSetModal() {
                     })
                 }
             </View>
-
-            {eventStack.length === 3 ?
-                <View className="w-[90%] bg-[#007383] rounded-sm py-1 mt-8 flex-row justify-center items-center">
-                    <Text className="text-gray-300">Maximum muscles selected for this event</Text>
-                </View> : <></>}
 
 
         </ModalWrapper>

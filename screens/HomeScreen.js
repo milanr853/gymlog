@@ -18,11 +18,7 @@ function HomeScreen() {
 
     var currentDate = moment().format("YYYY-MM-DD");
 
-    const dispatch = useDispatch()
-
     const navigation = useNavigation()
-
-    const weekModalView = useSelector(store => store.weekModalViewReducer.show)
 
     let generateRandomMarkerColor = () => markedDatesColorCodes[Math.floor(Math.random() * markedDatesColorCodes.length)];
     let randomColor = generateRandomMarkerColor()
@@ -104,6 +100,7 @@ function HomeScreen() {
 
 
 
+
     return (
         <Layout>
 
@@ -150,7 +147,7 @@ function HomeScreen() {
                 }
             />
 
-            {weekModalView && <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />}
+            <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />
         </Layout>
 
     )

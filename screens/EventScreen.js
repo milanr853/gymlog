@@ -11,57 +11,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showExerciseModal } from '../redux/exerciseAddModal'
 import { removeExerciseFromStack } from '../redux/exerciseStackSlice'
 import { eventTypes } from '../constants/Constants'
-import { showExerciseDataModal, takeExerciseMinimalData } from '../redux/exerciseDataSlice'
+import { fetchExerciseData, showExerciseDataModal } from '../redux/exerciseDataSlice'
 import ExerciseDataModal from '../components/ExerciseDataModal'
 import { allColors } from '../constants/Variable'
+import EventScreenEventView from '../components/EventScreenEventView'
+import EventScreenScrollView from '../components/EventListScrollView'
 
 // multiple muscleSet in an event is known as eventStack 
 
 function EventScreen() {
-    const { params: {
-        day
-    } } = useRoute()
-
-    const dispatch = useDispatch()
 
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
-    const [accordion, setAccordion] = useState(false)
-    const [muscleGrp, setMuscleGrp] = useState(null)
     const [event, setEvent] = useState([])
-
-    const inputDate = moment(day);
-    const output = inputDate.format('dddd, D MMMM, YYYY');
-
-    const heightValue = useRef(new Animated.Value(0)).current;
-
-    const animateWidth = (show, num) => {
-        const targetHeight = show ? (num * 35) + num : 0
-        Animated.timing(heightValue, {
-            toValue: targetHeight,
-            duration: 500,
-            useNativeDriver: false,
-        }).start();
-    };
-
-    const showExercises = (muscleSet) => {
-        heightValue._value = 0
-        setMuscleGrp(muscleSet)
-        setAccordion(true)
-        const num = muscleSet.exercises.length
-        animateWidth(true, num)
-    }
-
-    const hideExercises = (muscleSet) => {
-        const num = muscleSet.exercises.length
-        heightValue._value = num * 35
-        setAccordion(false)
-        animateWidth(false, num)
-    }
-
-    const animatedStyles = {
-        height: heightValue
-    }
 
     ////////////////////////
     useEffect(() => {
@@ -74,121 +36,28 @@ function EventScreen() {
     }, [eventStack.length])
 
 
-    const OpenAddExerciseToStackModal = (muscleName) => {
-        dispatch(showExerciseModal(muscleName))
-    }
-
-    const RemoveExerciseFromStack = (muscleName) => {
-        dispatch(removeExerciseFromStack(muscleName))
-    }
-
-    ///////////////////////////////////////
-    const openExerciseDataModal = (exercise, muscleSet) => {
-        dispatch(showExerciseDataModal())
-        // take the minimal data and perform some async action and provide a new populated object to the frontend
-        // proper usecase for redux thunk application
-        dispatch(takeExerciseMinimalData({ exercise, muscleSet, id: day }))
-    }
-
     // C.R.D api for event screen
     // 3 api
+    const muscleSetModalShow = useSelector(store => store.eventModalViewReducer.show)
+    const exerciseEntryModal = useSelector(store => store.exerciseAddModalReducer.show)
+    const exrciseDataModal = useSelector(store => store.exerciseDataModalReducer.show)
+
 
 
 
     return (
         <Layout>
             <View style={{ backgroundColor: allColors.bodybg }} className="flex-1">
-                <View className="flex-row h-[30%] w-full">
-                    {
-                        event.length ? event.map(obj => {
-                            return (
-                                <View style={{ backgroundColor: obj?.bg }} key={obj.title} className={`h-full flex-1 items-center justify-center`}>
-                                    <Text className='font-extrabold italic text-6xl text-gray-200'>
-                                        {event.length >= 3 ?
-                                            obj?.title.slice(0, 1) :
-                                            event.length === 2 ?
-                                                obj?.title.length <= 5 ? obj.title : obj?.title.slice(0, 3) + "..."
-                                                : event.length === 1 && obj?.title
-                                        }
-                                    </Text>
-                                </View>
-                            )
-                        })
-                            :
-                            <View className={`h-full flex-1 items-center justify-center bg-stone-400`}>
-                                <Text className='font-extrabold italic text-6xl text-gray-200'>
-                                    No event
-                                </Text>
-                            </View>
-                    }
-                </View>
 
-                <ScrollView className='flex-1 p-4 space-y-8'>
-                    <View className="flex-row space-x-4 items-center">
-                        {event.length ? event.map(obj => <View style={{ backgroundColor: obj?.bg }} key={obj.title} className={`w-[20px] h-[20px] rounded-md`}></View>) : <View className={`w-[20px] h-[20px] bg-stone-400 rounded-md`}></View>}
-                        <Text style={{ color: allColors.textcolor }} className="text-lg">{output}</Text>
-                    </View>
+                <EventScreenEventView event={event} />
 
-                    <View className="w-full px-8 pt-8 pb-4 space-y-8">
-                        {eventStack.map(muscle => {
-                            return (
-                                <View key={muscle.title} className="bg-gray-200 border border-gray-400 w-full rounded-sm px-2 py-1" >
-                                    <View className="flex-row justify-between items-center h-[35px]">
-                                        <Text className="text-gray-500 ">{muscle.title.toUpperCase()}</Text>
-                                        {
-                                            accordion && muscleGrp?.title === muscle.title ?
-                                                <View className="flex-row space-x-4 items-center">
-                                                    <View className="flex-row space-x-2">
-                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                            <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
-                                                        </View>
-                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                            <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
-                                                        </View>
-                                                    </View>
-                                                    <Ionicons onPress={() => hideExercises(muscle)} name="chevron-up-outline" size={17} color="gray"></Ionicons>
-                                                </View>
-                                                :
-                                                <View className="flex-row space-x-4 items-center">
-                                                    <View className="flex-row space-x-2">
-                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                            <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
-                                                        </View>
-                                                        <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                            <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
-                                                        </View>
-                                                    </View>
-                                                    <Ionicons onPress={() => showExercises(muscle)} name="chevron-down-outline" size={17} color="gray"></Ionicons>
-                                                </View>
-                                        }
-                                    </View>
+                <EventScreenScrollView event={event} eventStack={eventStack} />
 
-                                    {
-                                        muscle.title === muscleGrp?.title ?
-                                            <Animated.ScrollView className="max-h-[144px] overflow-y-scroll" style={animatedStyles}>
-                                                {
-                                                    muscle.exercises.map((exercise, index) => {
-                                                        return (
-                                                            <TouchableOpacity onPress={() => openExerciseDataModal(exercise, muscle.title)} key={exercise} className="w-full h-[35px] border-t border-gray-400 flex-row items-center">
-                                                                <Text className="text-gray-500 ">{index + 1} . {exercise}</Text>
-                                                            </TouchableOpacity>
-                                                        )
-                                                    })
-                                                }
-                                            </Animated.ScrollView>
-                                            :
-                                            <></>
-                                    }
-                                </View>
-                            )
-                        })}
-                    </View>
-                </ScrollView>
             </View>
 
-            <SpecificExerciseModal />
-            <AddMuscleSetModal />
-            <ExerciseDataModal />
+            {exerciseEntryModal && <SpecificExerciseModal />}
+            {muscleSetModalShow && <AddMuscleSetModal />}
+            {exrciseDataModal && <ExerciseDataModal />}
         </Layout>
     )
 }

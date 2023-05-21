@@ -8,7 +8,7 @@ import ModalWrapper from './ModalWrapper';
 
 
 function SpecificExerciseModal() {
-    const { show, muscleSet } = useSelector(store => store.exerciseAddModalReducer)
+    const { muscleSet } = useSelector(store => store.exerciseAddModalReducer)
 
     const dispatch = useDispatch()
 
@@ -36,8 +36,9 @@ function SpecificExerciseModal() {
     }
 
 
+
     return (
-        show &&
+        // show &&
         <ModalWrapper closeModal={closeModal}>
 
 

@@ -1,10 +1,12 @@
-import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { TouchableOpacity, View, Animated } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { allColors } from '../constants/Variable';
 
 
 function ModalWrapper({ closeModal, children }) {
+
+
     return (
         <View style={{ backgroundColor: allColors.modalbg }} className="absolute top-0 left-0 h-full w-full z-20 justify-center items-center">
 
