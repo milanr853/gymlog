@@ -3,7 +3,6 @@ import { ScrollView, Text, TextInput, View } from 'react-native'
 
 function ScrollXSection({ performArr, modifyData }) {
 
-  console.log('Scroll x comp')
 
   return (
     <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', alignItems: 'center', }} className="h-full w-full px-4">
@@ -54,4 +53,4 @@ function ScrollXSection({ performArr, modifyData }) {
   )
 }
 
-export default ScrollXSection
+export default React.memo(ScrollXSection)

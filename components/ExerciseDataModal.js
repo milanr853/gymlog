@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideExerciseDataModal } from '../redux/exerciseDataSlice'
-import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SaveButton from './SaveButton'
 import ScrollXSection from './ScrollXSection'
+import NoteComponent from './NoteComponent'
+
 
 
 function ExerciseDataModal() {
@@ -13,6 +15,8 @@ function ExerciseDataModal() {
 
     const [performArr, setPerformArr] = useState([])
     const [btnView, setBtnView] = useState(false)
+    const [note_value, onChangeText] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const dispatch = useDispatch()
 
@@ -44,15 +48,16 @@ function ExerciseDataModal() {
     useEffect(() => {
         if (!exerciseData) return
         setPerformArr(exerciseData.perform)
+        onChangeText(exerciseData.note)
     }, [exerciseData])
 
     useEffect(() => {
-        if (performArr.length === 0) return
-        else if (JSON.stringify(performArr) === JSON.stringify(exerciseData.perform)) { setBtnView(false); return }
+        if (performArr.length === 0 && note_value.length === 0) return
+        else if (JSON.stringify(performArr) === JSON.stringify(exerciseData.perform) && note_value === exerciseData.note) { setBtnView(false); return }
         setBtnView(true)
-    }, [performArr])
+    }, [performArr, note_value])
 
-    const modifyData = (type, id, text) => {
+    const modifyData = useCallback((type, id, text) => {
         if (type === "rep") {
             const modifyData = [...performArr]
 
@@ -88,17 +93,20 @@ function ExerciseDataModal() {
             }
             setPerformArr(modifyData)
         }
-    }
+    }, [])
 
     /////////////////////////////
 
-    const openNotes = () => {
-        alert('Ópen notes')
-    }
-
     const saveAllTheDataApi = () => {
         alert('data saved')
-        console.log(performArr)
+        const sendDataObj = {
+            id: 'date',
+            muscleSet: 'Legs',
+            exerciseName: 'Leg press',
+            note: note_value,
+            perform: performArr
+        }
+        console.log(sendDataObj)
     }
 
     // api call using exerciseMinimalData
@@ -109,7 +117,11 @@ function ExerciseDataModal() {
     // always minimum 1 empty column will be provided by the backend
     // if that column has data that data will be provided. if rep and weight are 0,0 then an empty column will be provided by the backend
 
-    console.log('Exercise data modal')
+    /////////////////////////////
+
+    const handleNoteBtnClick = () => {
+        setIsOpen(!isOpen);
+    }
 
 
     return (
@@ -121,7 +133,7 @@ function ExerciseDataModal() {
                     <>
                         <View className="w-[90%] bg-white rounded-md h-[70%] relative" >
                             {/* DATA VIEW */}
-                            <View className=" p-4 space-y-3">
+                            <View className=" p-4 space-y-3 relative">
                                 <View className="flex-row justify-center items-center bg-slate-200 py-3 space-x-2 rounded-md">
                                     <Ionicons name="flash" size={20} color={'#9ca3af'}></Ionicons>
                                     <Text className='text-gray-400 text-lg font-semibold'>{exerciseData.exerciseName}</Text>
@@ -146,6 +158,9 @@ function ExerciseDataModal() {
                                         <Text className="text-gray-400 text-lg font-semibold"> {exerciseData.oneRM}kg</Text>
                                     </View>
                                 </View>
+
+                                {/* NOTE SECTION */}
+                                <NoteComponent isOpen={isOpen} notes={note_value} noteEdit={onChangeText} />
                             </View>
 
 
@@ -163,7 +178,7 @@ function ExerciseDataModal() {
                                             <Ionicons name="remove-outline" size={25} color={'gray'}></Ionicons>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={openNotes}>
+                                    <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={handleNoteBtnClick}>
                                         <View className="bg-slate-200 rounded-lg w-[36px] h-[36px] justify-center items-center">
                                             <Ionicons name="pencil-outline" size={21} color={'gray'}></Ionicons>
                                         </View>
