@@ -122,6 +122,7 @@ function HomeScreen() {
                 markedDates={markedDates}
 
                 markingType={'period'}
+
                 minDate={currentDate}
 
                 // onDayLongPress={day => {

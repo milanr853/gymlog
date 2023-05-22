@@ -1,31 +1,27 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View } from 'react-native'
 import Layout from '../components/Layout'
 import SpecificExerciseModal from '../components/SpecificExerciseModal'
-import { useRoute } from '@react-navigation/native'
-import moment from 'moment/moment';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import AddMuscleSetModal from '../components/AddMuscleSetModal'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { showExerciseModal } from '../redux/exerciseAddModal'
-import { removeExerciseFromStack } from '../redux/exerciseStackSlice'
+import { useSelector } from 'react-redux'
 import { eventTypes } from '../constants/Constants'
-import { fetchExerciseData, showExerciseDataModal } from '../redux/exerciseDataSlice'
 import ExerciseDataModal from '../components/ExerciseDataModal'
 import { allColors } from '../constants/Variable'
 import EventScreenEventView from '../components/EventScreenEventView'
 import EventScreenScrollView from '../components/EventListScrollView'
 
-// multiple muscleSet in an event is known as eventStack 
+
 
 function EventScreen() {
+    const muscleSetModalShow = useSelector(store => store.eventModalViewReducer.show)
+    const exerciseEntryModal = useSelector(store => store.exerciseAddModalReducer.show)
+    const exrciseDataModal = useSelector(store => store.exerciseDataModalReducer.show)
 
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
     const [event, setEvent] = useState([])
 
-    ////////////////////////
     useEffect(() => {
         const eventArr = eventTypes.filter(obj => {
             const muscleSet = eventStack.find(event => event.title === obj.title)
@@ -35,13 +31,9 @@ function EventScreen() {
         else setEvent([])
     }, [eventStack.length])
 
-
+    /////////////////////////////
     // C.R.D api for event screen
     // 3 api
-    const muscleSetModalShow = useSelector(store => store.eventModalViewReducer.show)
-    const exerciseEntryModal = useSelector(store => store.exerciseAddModalReducer.show)
-    const exrciseDataModal = useSelector(store => store.exerciseDataModalReducer.show)
-
 
 
 

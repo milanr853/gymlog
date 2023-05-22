@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { ScrollView, View, Text, Animated, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native'
+import { ScrollView, View, Text, Animated, TouchableOpacity, Pressable } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showExerciseModal } from '../redux/exerciseAddModal';
 import { removeExerciseFromStack } from '../redux/exerciseStackSlice';
 import { fetchExerciseData, showExerciseDataModal } from '../redux/exerciseDataSlice';

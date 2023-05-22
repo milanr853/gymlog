@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react'
-import { Button, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { Pressable, Text, View } from 'react-native'
 import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
 import { useDispatch, useSelector } from "react-redux"
 import moment from 'moment';
 import ModalWrapper from './ModalWrapper';
 import { allColors } from "../constants/Variable"
+import SaveButton from './SaveButton';
 
 
 
@@ -60,7 +61,8 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
                 </View>
 
                 <View className="p-2 w-full justify-center items-center">
-                    <View className="border border-gray-400 h-[46px] overflow-hidden p-1 rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
+                    <View className="border border-gray-400 h-[46px] overflow-hidden p-1 
+                    rounded-lg w-[80px] mb-2 justify-center items-center flex-row">
                         <RollPickerNative
                             items={weeksArr}
                             containerHeight={38}
@@ -73,10 +75,9 @@ function SelectWeekModal({ handleDayPress, selectedDayObject, markedDates }) {
                 </View>
             </View>
 
+
             {weeks >= 1 &&
-                <TouchableOpacity style={{ backgroundColor: "#576cbc" }} activeOpacity={1} className="w-[90%] h-[40px] rounded-sm items-center justify-center  py-2" onPress={setNumOfWeeks}>
-                    <Text style={{ color: allColors.textcolor }} >CONFIRM</Text>
-                </TouchableOpacity>
+                <SaveButton onPress={setNumOfWeeks} text={'CONFIRM'} />
             }
 
 

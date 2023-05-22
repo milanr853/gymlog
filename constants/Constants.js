@@ -26,13 +26,10 @@ export const markedDatesColorCodes = [
     "#ffa500",
     '#5C469C',
     "#CBB279",
-    "#D6D5A8",
-    "#EEEEEE",
     "#088395",
     "#E86A33",
     "#393646",
     "#5B8FB9",
-    "#B6EADA",
     "#278EA5",
     "#A3F7BF",
 ]

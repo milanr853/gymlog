@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { View, Text, TouchableOpacity, Pressable, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, } from 'react-native';
 import { useDispatch } from "react-redux"
 import { showWeekModal } from '../redux/weekModalViewSlice';
 import { StatusBar } from 'expo-status-bar';
@@ -40,8 +40,8 @@ function Layout({ children }) {
                     <TouchableOpacity >
                         <Ionicons name='reorder-three-outline' size={32} color={allColors.iconcolor} />
                     </TouchableOpacity>
-                    {/* <Text style={{ color: allColors.textcolor }} className="font-bold text-xl">Gym Log</Text> */}
                 </View>
+
 
                 {/* for calendar view */}
                 {
@@ -51,11 +51,11 @@ function Layout({ children }) {
                     </TouchableOpacity>
                 }
 
+
                 {/* for event view */}
                 {name === "Event" &&
                     <View className="flex-row space-x-4 relative" >
                         <Ionicons name="calendar-outline" size={28} color={allColors.iconcolor} onPress={goBack}></Ionicons>
-                        {/* <Ionicons name="ellipsis-vertical-outline" size={27} color={allColors.iconcolor} onPress={runTheOption}></Ionicons> */}
                         <Ionicons name="body-outline" size={26} color={allColors.iconcolor} onPress={runTheOption}></Ionicons>
                     </View>
                 }
