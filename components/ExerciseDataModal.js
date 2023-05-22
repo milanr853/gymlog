@@ -11,18 +11,13 @@ function ExerciseDataModal() {
     const { exerciseData } = useSelector(store => store.exerciseDataModalReducer)
 
     const [performArr, setPerformArr] = useState([])
-    const [rep, setRep] = useState('')
-    const [weight, setWeight] = useState('')
+    const [btnView, setBtnView] = useState(false)
 
     const dispatch = useDispatch()
 
     const closeModal = () => {
         dispatch(hideExerciseDataModal())
     }
-
-    // api call using exerciseMinimalData
-    // C.R.U.D operations will take place
-    // 4 apis to integrate
 
     const addSet = () => {
         if (performArr.length < 10) {
@@ -36,15 +31,12 @@ function ExerciseDataModal() {
     }
 
     const minusSet = () => {
-        if (performArr.length > 2) {
+        if (performArr.length > 1) {
             setPerformArr(prev => {
                 return prev.filter((obj, ind) => {
                     if (ind !== prev.length - 1) return obj
                 })
             })
-        }
-        else {
-            alert('Minimum 2 sets to perform')
         }
     }
 
@@ -52,6 +44,50 @@ function ExerciseDataModal() {
         if (!exerciseData) return
         setPerformArr(exerciseData.perform)
     }, [exerciseData])
+
+    useEffect(() => {
+        if (performArr.length === 0) return
+        else if (JSON.stringify(performArr) === JSON.stringify(exerciseData.perform)) { setBtnView(false); return }
+        setBtnView(true)
+    }, [performArr])
+
+    const modifyData = (type, id, text) => {
+        if (type === "rep") {
+            const modifyData = [...performArr]
+
+            const replacementObject = { ...performArr.find(obj => obj.set == id) }
+            const TEXT = text ? text : 0
+            replacementObject.rep = parseInt(TEXT)
+
+            if (TEXT === 0) replacementObject.weight = 0
+
+            for (let i = 0; i < modifyData.length; i++) {
+                if (modifyData[i].set === replacementObject.set) {
+                    modifyData[i] = replacementObject;
+                    break;
+                }
+            }
+            setPerformArr(modifyData)
+        }
+
+        else if (type === "weight") {
+            const modifyData = [...performArr]
+
+            const replacementObject = { ...performArr.find(obj => obj.set == id) }
+            const TEXT = text ? text : 0
+            replacementObject.weight = parseInt(TEXT)
+
+            if (TEXT && replacementObject.rep == 0) replacementObject.weight = 0
+
+            for (let i = 0; i < modifyData.length; i++) {
+                if (modifyData[i].set === replacementObject.set) {
+                    modifyData[i] = replacementObject;
+                    break;
+                }
+            }
+            setPerformArr(modifyData)
+        }
+    }
 
     /////////////////////////////
 
@@ -61,7 +97,16 @@ function ExerciseDataModal() {
 
     const saveAllTheDataApi = () => {
         alert('data saved')
+        console.log(performArr)
     }
+
+    // api call using exerciseMinimalData
+    // C.R.U.D operations will take place
+    // 4 apis to integrate
+
+    // make a check that if both set and rep are 0 or empty then those columns will be filtered in the backend and will not be provided to frontend. frontend will only receive filled data columns
+    // always minimum 1 empty column will be provided by the backend
+    // if that column has data that data will be provided. if rep and weight are 0,0 then an empty column will be provided by the backend
 
 
 
@@ -146,7 +191,7 @@ function ExerciseDataModal() {
                                                 <View className="bg-white border border-gray-300 w-[60px] h-[40px] justify-center items-center">
                                                     <TextInput
                                                         style={{ width: '75%', height: "100%" }}
-                                                        onChangeText={() => { }}
+                                                        onChangeText={(text) => { modifyData('rep', obj.set, text) }}
                                                         value={`${obj.rep}`}
                                                         keyboardType="numeric"
                                                     />
@@ -154,7 +199,7 @@ function ExerciseDataModal() {
                                                 <View className="bg-white border border-gray-300 w-[60px] h-[40px] justify-center items-center">
                                                     <TextInput
                                                         style={{ width: '75%', height: "100%" }}
-                                                        onChangeText={() => { }}
+                                                        onChangeText={(text) => { modifyData('weight', obj.set, text) }}
                                                         value={`${obj.weight}`}
                                                         keyboardType="numeric"
                                                     />
@@ -173,7 +218,7 @@ function ExerciseDataModal() {
                             </View>
                         </View>
 
-                        {performArr.length !== exerciseData?.perform?.length ?
+                        {btnView ?
                             <SaveButton
                                 styles={{ position: "absolute", bottom: 40 }}
                                 onPress={saveAllTheDataApi}
