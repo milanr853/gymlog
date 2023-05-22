@@ -9,8 +9,6 @@ import { allColors } from '../constants/Variable'
 
 
 function AddMuscleSetModal() {
-    // const show = useSelector(store => store.eventModalViewReducer.show)
-
     const eventStack = useSelector(store => store.exerciseStackReducer.stack)
 
     const dispatch = useDispatch()
@@ -29,24 +27,9 @@ function AddMuscleSetModal() {
         dispatch(hideEventModal())
     }
 
-    ////////////////////////////
-    // const opacityValue = useRef(new Animated.Value(0)).current;
-
-    // useEffect(() => {
-    //     const opacityAnimation = Animated.timing(opacityValue, {
-    //         toValue: 1,
-    //         duration: 75,
-    //         useNativeDriver: true,
-    //     });
-    //     opacityAnimation.start();
-    //     return () => opacityAnimation.stop();
-    // }, []);
-    // style={{ opacity: opacityValue }}
-
 
 
     return (
-        // show &&
         <ModalWrapper closeModal={closeModal}>
 
 

@@ -21,7 +21,6 @@ function SpecificExerciseModal() {
 
     // api will be called
     const AddExerciseToStack = () => {
-        // input - perform some action
         if (!input) return
         const payload = { title: muscleSet, exercise: input }
         dispatch(addExerciseToStack(payload))
@@ -37,14 +36,16 @@ function SpecificExerciseModal() {
 
 
 
+
     return (
-        // show &&
         <ModalWrapper closeModal={closeModal}>
 
 
 
             <View className="py-4 px-4 space-y-6 shadow-md bg-white rounded-md justify-center items-center w-[90%]">
-                <View className="w-full flex-row justify-start"><Text className="font-semibold text-lg">{muscleSet} Exercise Name</Text></View>
+                <View className="w-full flex-row justify-start">
+                    <Text className="font-semibold text-lg">{muscleSet} Exercise Name</Text>
+                </View>
                 <View className="bg-white w-full h-[40px] rounded-md border border-black outline-none">
                     <TextInput
                         className="flex-1 text-gray-400"
@@ -83,8 +84,6 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         padding: 10,
-        // outlineColor: "transparent",
-        // outlineStyle: "none"
     },
 });
 

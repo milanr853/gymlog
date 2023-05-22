@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideExerciseDataModal } from '../redux/exerciseDataSlice'
-import { ActivityIndicator, Button, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import SaveButton from './SaveButton'
 
 
 function ExerciseDataModal() {
@@ -49,7 +50,6 @@ function ExerciseDataModal() {
 
     useEffect(() => {
         if (!exerciseData) return
-        console.log(exerciseData.perform)
         setPerformArr(exerciseData.perform)
     }, [exerciseData])
 
@@ -63,7 +63,6 @@ function ExerciseDataModal() {
         alert('data saved')
     }
 
-    console.log(performArr.length, exerciseData?.perform)
 
 
     return (
@@ -175,9 +174,11 @@ function ExerciseDataModal() {
                         </View>
 
                         {performArr.length !== exerciseData?.perform?.length ?
-                            <Pressable onPress={saveAllTheDataApi} className="bg-[#576cbc] mt-4 w-[90%] h-[40px] justify-center items-center rounded-sm">
-                                <Text className="text-white">SAVE</Text>
-                            </Pressable> : <></>
+                            <SaveButton
+                                styles={{ position: "absolute", bottom: 40 }}
+                                onPress={saveAllTheDataApi}
+                                text={'SAVE'} />
+                            : <></>
                         }
                     </>
 
