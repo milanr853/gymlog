@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Text, View } from 'react-native'
 import RollPickerNative from "roll-picker-native"
 import { hideWeekModal } from '../redux/weekModalViewSlice';
@@ -50,18 +50,19 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
         setWeeks(0)
     }
 
+    const currentDateRef = useRef(moment().format("YYYY-MM-DD")).current
+
     const calcStartDate = () => {
         const arrOfKeys = Object.keys(markedDates)
-        let currentDate = moment().format("YYYY-MM-DD")
-        const exists = arrOfKeys.includes(currentDate)
+        const exists = arrOfKeys.includes(currentDateRef)
 
         if (exists) {
             const lastKey = arrOfKeys[arrOfKeys.length - 1];
-            const startDate = moment(lastKey).add(1, 'days').format("DD/MMMM/YYYY")
+            const startDate = moment(lastKey).add(1, 'days').format("DD MMM YYYY")
             setFromDate(startDate)
         }
         else {
-            const nowDate = moment().format("DD/MMMM/YYYY")
+            const nowDate = moment().format("DD MMM YYYY")
             setFromDate(nowDate)
         }
     }
@@ -72,7 +73,7 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
 
     useEffect(() => {
         if (!fromDate) return
-        const endDate = moment(fromDate).add(7 * weeks, 'days').format("DD/MMMM/YYYY")
+        const endDate = moment(currentDateRef).add(7 * weeks, 'days').format('DD MMM YYYY')
         setToDate(endDate)
     }, [weeks, fromDate])
 

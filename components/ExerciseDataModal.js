@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideExerciseDataModal } from '../redux/exerciseDataSlice'
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SaveButton from './SaveButton'
 import ScrollXSection from './ScrollXSection'
@@ -17,6 +17,7 @@ function ExerciseDataModal() {
     const [btnView, setBtnView] = useState(false)
     const [note_value, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [exerciseNameText, setExerciseNameText] = useState('');
 
     const dispatch = useDispatch()
 
@@ -49,6 +50,7 @@ function ExerciseDataModal() {
         if (!exerciseData) return
         setPerformArr(exerciseData.perform)
         onChangeText(exerciseData.note)
+        setExerciseNameText(exerciseData.exerciseName)
     }, [exerciseData])
 
     useEffect(() => {
@@ -98,15 +100,17 @@ function ExerciseDataModal() {
     /////////////////////////////
 
     const saveAllTheDataApi = () => {
-        alert('data saved')
+        alert('data updated')
         const sendDataObj = {
             id: 'date',
             muscleSet: 'Legs',
-            exerciseName: 'Leg press',
+            exerciseName: exerciseNameText,
             note: note_value,
             perform: performArr
         }
         console.log(sendDataObj)
+        inputFocus.current = false
+        inputRef.current.blur()
     }
 
     // api call using exerciseMinimalData
@@ -123,6 +127,24 @@ function ExerciseDataModal() {
         setIsOpen(!isOpen);
     }
 
+    const inputRef = useRef(null);
+    const inputFocus = useRef(false);
+
+    const changeFocus = () => {
+        if (inputFocus.current) {
+            inputRef.current.blur();
+            inputFocus.current = false
+        } else {
+            inputRef.current.focus();
+            inputFocus.current = true
+        }
+    }
+
+    const changeExerciseName = (text) => {
+        setExerciseNameText(text)
+    }
+
+
 
     return (
         // show &&
@@ -134,9 +156,26 @@ function ExerciseDataModal() {
                         <View className="w-[90%] bg-white rounded-md h-[70%] relative" >
                             {/* DATA VIEW */}
                             <View className=" p-4 space-y-3 relative">
-                                <View className="flex-row justify-center items-center bg-slate-200 py-3 space-x-2 rounded-md">
-                                    <Ionicons name="flash" size={20} color={'#9ca3af'}></Ionicons>
-                                    <Text className='text-gray-400 text-lg font-semibold'>{exerciseData.exerciseName}</Text>
+                                <View className="flex-row justify-center items-center 
+                                bg-slate-200 p-3 space-x-2 rounded-md relative">
+                                    <Ionicons name="flash" size={20} color={'#9ca3af'} />
+
+                                    <TextInput ref={inputRef} className='text-gray-400 text-lg 
+                                    font-semibold h-full max-w-[190px]'
+                                        value={exerciseNameText}
+                                        onChangeText={(text) => { changeExerciseName(text) }}
+                                        onFocus={() => {
+                                            inputRef.current.focus();
+                                            inputFocus.current = true
+                                        }}
+                                        onBlur={() => {
+                                            inputRef.current.blur();
+                                            inputFocus.current = false
+                                        }}
+                                    />
+                                    <TouchableOpacity className='absolute bottom-2 right-2' onPress={changeFocus}>
+                                        <Ionicons name="create-outline" size={16} color={'#9ca3af'} />
+                                    </TouchableOpacity>
                                 </View>
                                 <View className="flex-row justify-between items-center">
                                     <View className="w-[140px] py-3 bg-slate-200 justify-center items-center rounded-2xl shadow-md flex-row">
@@ -180,7 +219,7 @@ function ExerciseDataModal() {
                                     </TouchableOpacity>
                                     <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={handleNoteBtnClick}>
                                         <View className="bg-slate-200 rounded-lg w-[36px] h-[36px] justify-center items-center">
-                                            <Ionicons name="pencil-outline" size={21} color={'gray'}></Ionicons>
+                                            <Ionicons name="pencil-outline" size={20} color={'gray'}></Ionicons>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -190,7 +229,7 @@ function ExerciseDataModal() {
                             </View>
                         </View>
 
-                        {btnView ?
+                        {btnView || exerciseData.exerciseName !== exerciseNameText.trim() ?
                             <SaveButton
                                 styles={{ position: "absolute", bottom: 40 }}
                                 onPress={saveAllTheDataApi}
