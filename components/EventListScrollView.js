@@ -87,10 +87,16 @@ function EventScreenScrollView({ event, eventStack }) {
                                         <View className="flex-row space-x-4 items-center">
                                             <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                    <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
+                                                    <TouchableOpacity onPress={() => { OpenAddExerciseToStackModal(muscle.title) }}>
+                                                        <Ionicons name="add" size={19} color="gray">
+                                                        </Ionicons>
+                                                    </TouchableOpacity>
                                                 </View>
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                    <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
+                                                    <TouchableOpacity onPress={() => { RemoveExerciseFromStack(muscle.title) }}>
+                                                        <Ionicons name="trash" size={17} color="gray">
+                                                        </Ionicons>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
 
@@ -102,10 +108,16 @@ function EventScreenScrollView({ event, eventStack }) {
                                         <View className="flex-row space-x-4 items-center">
                                             <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                    <Ionicons onPress={() => { OpenAddExerciseToStackModal(muscle.title) }} name="add" size={19} color="gray"></Ionicons>
+                                                    <TouchableOpacity onPress={() => { OpenAddExerciseToStackModal(muscle.title) }}>
+                                                        <Ionicons name="add" size={19} color="gray">
+                                                        </Ionicons>
+                                                    </TouchableOpacity>
                                                 </View>
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
-                                                    <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray"></Ionicons>
+                                                    <TouchableOpacity>
+                                                        <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray">
+                                                        </Ionicons>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
 

@@ -170,12 +170,12 @@ function ExerciseDataModal() {
                                 <View className="w-full flex-row space-x-4 justify-start mt-6 px-4">
                                     <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={addSet}>
                                         <View className="bg-slate-200 rounded-lg w-[36px] h-[36px] justify-center items-center">
-                                            <Ionicons name="add-outline" size={25} color={'gray'}></Ionicons>
+                                            <Ionicons name="add" size={25} color={'gray'}></Ionicons>
                                         </View>
                                     </TouchableOpacity>
                                     <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={minusSet}>
                                         <View className="bg-slate-200 rounded-lg w-[36px] h-[36px] justify-center items-center">
-                                            <Ionicons name="remove-outline" size={25} color={'gray'}></Ionicons>
+                                            <Ionicons name="remove" size={25} color={'gray'}></Ionicons>
                                         </View>
                                     </TouchableOpacity>
                                     <TouchableOpacity className="bg-white rounded-lg w-[40px] h-[40px] justify-center items-center" onPress={handleNoteBtnClick}>

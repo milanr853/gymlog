@@ -30,6 +30,9 @@ function Layout({ children }) {
         dispatch(showEventModal())
     }
 
+    const copyRoutineToProgram = () => {
+        alert('call copy routine api')
+    }
 
 
 
@@ -46,17 +49,26 @@ function Layout({ children }) {
                 {/* for calendar view */}
                 {
                     name === "Home" &&
-                    <TouchableOpacity className="flex-row" onPress={() => { dispatch(showWeekModal()) }}>
-                        <Ionicons name="duplicate-outline" size={28} color={allColors.iconcolor}></Ionicons>
-                    </TouchableOpacity>
+                    <View className="flex-row space-x-4 relative" >
+                        <TouchableOpacity onPress={() => { dispatch(showWeekModal()) }}>
+                            <Ionicons name="duplicate-outline" size={28} color={allColors.iconcolor} ></Ionicons>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={copyRoutineToProgram}>
+                            <Ionicons name="copy-outline" size={28} color={allColors.iconcolor} ></Ionicons>
+                        </TouchableOpacity>
+                    </View>
                 }
 
 
                 {/* for event view */}
                 {name === "Event" &&
                     <View className="flex-row space-x-4 relative" >
-                        <Ionicons name="calendar-outline" size={28} color={allColors.iconcolor} onPress={goBack}></Ionicons>
-                        <Ionicons name="body-outline" size={26} color={allColors.iconcolor} onPress={runTheOption}></Ionicons>
+                        <TouchableOpacity onPress={goBack}>
+                            <Ionicons name="calendar-outline" size={28} color={allColors.iconcolor} ></Ionicons>
+                        </TouchableOpacity >
+                        <TouchableOpacity onPress={runTheOption}>
+                            <Ionicons name="body-outline" size={26} color={allColors.iconcolor} ></Ionicons>
+                        </TouchableOpacity>
                     </View>
                 }
             </LinearGradient>
