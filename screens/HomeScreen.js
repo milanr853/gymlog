@@ -4,7 +4,6 @@ import moment from 'moment/moment';
 import Layout from '../components/Layout';
 import SelectWeekModal from '../components/SelectWeekModal';
 import { useDispatch, useSelector } from "react-redux"
-import { showWeekModal } from '../redux/weekModalViewSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { useNavigation } from '@react-navigation/native';
 import { markedDatesColorCodes } from '../constants/Constants';
@@ -14,7 +13,7 @@ import { allColors } from "../constants/Variable"
 
 function HomeScreen() {
     const [markedDates, setMarkedDates] = useState({});
-    const [dayObject, setDayObject] = useState(null);
+    // const [dayObject, setDayObject] = useState(null);
 
     var currentDate = moment().format("YYYY-MM-DD");
 
@@ -29,7 +28,9 @@ function HomeScreen() {
         // Selected date
         let selectedDate = moment(day.dateString); // Replace with your selected date
         // Calculate the number of days remaining in the week
-        let daysRemaining = 6 - selectedDate.day(); // Assuming Sunday is the first day of the week (0-indexed)
+        let daysRemaining = 0
+        // 6 - selectedDate.day(); // Assuming Sunday is the first day of the week (0-indexed)
+
         let totalDays = daysRemaining >= 6 ? weeks * 7 - 1 : daysRemaining + weeks * 7
 
         const arr = []
@@ -100,7 +101,6 @@ function HomeScreen() {
 
 
 
-
     return (
         <Layout>
 
@@ -148,7 +148,10 @@ function HomeScreen() {
                 }
             />
 
-            <SelectWeekModal handleDayPress={handleDayPress} selectedDayObject={dayObject} markedDates={markedDates} />
+            <SelectWeekModal
+                handleDayPress={handleDayPress}
+                // selectedDayObject={dayObject} 
+                markedDates={markedDates} />
         </Layout>
 
     )
