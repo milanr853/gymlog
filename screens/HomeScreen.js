@@ -3,7 +3,6 @@ import { CalendarList, } from 'react-native-calendars';
 import moment from 'moment/moment';
 import Layout from '../components/Layout';
 import SelectWeekModal from '../components/SelectWeekModal';
-import { useDispatch, useSelector } from "react-redux"
 import { nanoid } from '@reduxjs/toolkit';
 import { useNavigation } from '@react-navigation/native';
 import { markedDatesColorCodes } from '../constants/Constants';
@@ -13,32 +12,27 @@ import { allColors } from "../constants/Variable"
 
 function HomeScreen() {
     const [markedDates, setMarkedDates] = useState({});
-    // const [dayObject, setDayObject] = useState(null);
 
-    var currentDate = moment().format("YYYY-MM-DD");
+    let currentDate = moment().format("YYYY-MM-DD");
 
     const navigation = useNavigation()
 
     let generateRandomMarkerColor = () => markedDatesColorCodes[Math.floor(Math.random() * markedDatesColorCodes.length)];
+
     let randomColor = generateRandomMarkerColor()
 
     const uid = nanoid()
 
-    function markDates(day, weeks) {
-        // Selected date
-        let selectedDate = moment(day.dateString); // Replace with your selected date
-        // Calculate the number of days remaining in the week
-        let daysRemaining = 0
-        // 6 - selectedDate.day(); // Assuming Sunday is the first day of the week (0-indexed)
-
-        let totalDays = daysRemaining >= 6 ? weeks * 7 - 1 : daysRemaining + weeks * 7
+    function markDates(day, totalDaysInTheProgram) {
 
         const arr = []
-        for (var i = 1; i <= totalDays; i++) {
+
+        for (var i = 1; i <= totalDaysInTheProgram; i++) {
             arr.push(i);
         }
 
         const obj = {}
+
         arr.forEach((elem, ind) => {
             obj[[moment(day.dateString).add(elem, 'days').format('YYYY-MM-DD')]] = {
                 color: randomColor, textColor: 'white', endingDay: ind === arr.length - 1 ? true : false,
@@ -48,21 +42,19 @@ function HomeScreen() {
         return obj
     }
 
-    const handleDayPress = (day, weeks) => {
-        if (![...Object.keys(markedDates)].includes(day.dateString)) {
-            // Selected date
-            let selectedDate = moment(day.dateString); // Replace with your selected date
-            // Calculate the number of days remaining in the week
-            let daysRemaining = 6 - selectedDate.day(); // Assuming Sunday is the first day of the week (0-indexed)
-            let totalDays = daysRemaining >= 6 ? weeks * 7 - 1 : daysRemaining + weeks * 7
-            const lastDateInTheRange = moment(day.dateString).add(totalDays, 'days').format('YYYY-MM-DD')
 
+    const handleDayPress = (startDate, weeks) => {
+        if (![...Object.keys(markedDates)].includes(startDate.dateString)) {
+
+            let totalDaysInTheProgram = weeks * 7 - 1
+
+            const lastDateInTheRange = moment(startDate.dateString).add(totalDaysInTheProgram, 'days').format('YYYY-MM-DD')
 
             const all_selected_dates = [...Object.keys(markedDates)]
 
             // to get all filtered dates on and after the selected date
             let filteredDates = all_selected_dates.filter((date) => {
-                return moment(date).isSame(day.dateString) || moment(date).isAfter(day.dateString);
+                return moment(date).isSame(startDate.dateString) || moment(date).isAfter(startDate.dateString);
             });
 
             var range_id;
@@ -80,10 +72,10 @@ function HomeScreen() {
             setMarkedDates(prev => {
                 return {
                     ...prev,
-                    [day.dateString]: {
+                    [startDate.dateString]: {
                         startingDay: true, color: randomColor, textColor: 'white', id: uid
                     },
-                    ...markDates(day, weeks),
+                    ...markDates(startDate, totalDaysInTheProgram),
                 }
             }
             )
@@ -125,10 +117,6 @@ function HomeScreen() {
 
                 minDate={currentDate}
 
-                // onDayLongPress={day => {
-                //     setDayObject(day)
-                //     dispatch(showWeekModal())
-                // }}
                 style={{ marginBottom: 24 }}
 
                 theme={
@@ -150,8 +138,8 @@ function HomeScreen() {
 
             <SelectWeekModal
                 handleDayPress={handleDayPress}
-                // selectedDayObject={dayObject} 
-                markedDates={markedDates} />
+                markedDates={markedDates}
+            />
         </Layout>
 
     )

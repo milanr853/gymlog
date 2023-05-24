@@ -14,10 +14,10 @@ function ExerciseDataModal() {
     const { exerciseData } = useSelector(store => store.exerciseDataModalReducer)
 
     const [performArr, setPerformArr] = useState([])
-    const [btnView, setBtnView] = useState(false)
     const [note_value, onChangeText] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
     const [exerciseNameText, setExerciseNameText] = useState('');
+    const [btnView, setBtnView] = useState(false)
+    // const [isOpen, setIsOpen] = useState(false);
 
     const dispatch = useDispatch()
 
@@ -122,13 +122,14 @@ function ExerciseDataModal() {
     // if that column has data that data will be provided. if rep and weight are 0,0 then an empty column will be provided by the backend
 
     /////////////////////////////
-
-    const handleNoteBtnClick = () => {
-        setIsOpen(!isOpen);
-    }
-
     const inputRef = useRef(null);
     const inputFocus = useRef(false);
+    const noteOpen = useRef(false);
+
+    const handleNoteBtnClick = () => {
+        // setIsOpen(!isOpen);
+        noteOpen.current ? noteOpen.current = false : noteOpen.current = true
+    }
 
     const changeFocus = () => {
         if (inputFocus.current) {
@@ -199,7 +200,7 @@ function ExerciseDataModal() {
                                 </View>
 
                                 {/* NOTE SECTION */}
-                                <NoteComponent isOpen={isOpen} notes={note_value} noteEdit={onChangeText} />
+                                <NoteComponent isOpen={noteOpen} notes={note_value} noteEdit={onChangeText} />
                             </View>
 
 

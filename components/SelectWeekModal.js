@@ -21,7 +21,7 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
 
     const dispatch = useDispatch()
 
-    const continuingDate = () => {
+    const programStartDate = () => {
         const date_keys = Object.keys(markedDates)
 
         const currentDate = date_keys.length ? moment(`${date_keys[date_keys.length - 1]}`).add(1, 'day') : moment()
@@ -40,8 +40,7 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
         if (weeks <= 0) return
         dispatch(hideWeekModal())
 
-        // handleDayPress(selectedDayObject ? selectedDayObject : continuingDate(), weeks)
-        handleDayPress(continuingDate(), weeks)
+        handleDayPress(programStartDate(), weeks)
         setWeeks(0)
     }
 
@@ -50,15 +49,16 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
         setWeeks(0)
     }
 
-    const currentDateRef = useRef(moment().format("YYYY-MM-DD")).current
+    const currentDateRef = useRef(moment().format("YYYY-MM-DD"))
 
     const calcStartDate = () => {
         const arrOfKeys = Object.keys(markedDates)
-        const exists = arrOfKeys.includes(currentDateRef)
+        const exists = arrOfKeys.includes(currentDateRef.current)
 
         if (exists) {
             const lastKey = arrOfKeys[arrOfKeys.length - 1];
-            const startDate = moment(lastKey).add(1, 'days').format("DD MMM YYYY")
+            const startDate = moment(lastKey).add(1, 'day').format("DD MMM YYYY")
+            currentDateRef.current = moment(lastKey).add(1, 'day').format('YYYY-MM-DD')
             setFromDate(startDate)
         }
         else {
@@ -73,10 +73,9 @@ function SelectWeekModal({ handleDayPress, markedDates }) {
 
     useEffect(() => {
         if (!fromDate) return
-        const endDate = moment(currentDateRef).add(7 * weeks, 'days').format('DD MMM YYYY')
+        const endDate = moment(currentDateRef.current).add(weeks ? 7 * weeks - 1 : 0, 'days').format('DD MMM YYYY')
         setToDate(endDate)
     }, [weeks, fromDate])
-
 
 
 
