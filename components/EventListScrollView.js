@@ -88,20 +88,20 @@ function EventScreenScrollView({ event, eventStack }) {
                                             <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <TouchableOpacity onPress={() => { OpenAddExerciseToStackModal(muscle.title) }}>
-                                                        <Ionicons name="add" size={19} color="gray">
+                                                        <Ionicons name="add" size={25} color="gray">
                                                         </Ionicons>
                                                     </TouchableOpacity>
                                                 </View>
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <TouchableOpacity onPress={() => { RemoveExerciseFromStack(muscle.title) }}>
-                                                        <Ionicons name="trash" size={17} color="gray">
+                                                        <Ionicons name="trash" size={19} color="gray">
                                                         </Ionicons>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
 
                                             <Pressable onPress={() => hideExercises(muscle)} className="justify-center items-center w-[20px] h-[28px] rounded-sm">
-                                                <Ionicons name="chevron-up-outline" size={17} color="gray"></Ionicons>
+                                                <Ionicons name="chevron-up" size={22} color="gray"></Ionicons>
                                             </Pressable>
                                         </View>
                                         :
@@ -109,20 +109,20 @@ function EventScreenScrollView({ event, eventStack }) {
                                             <View className="flex-row space-x-4">
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <TouchableOpacity onPress={() => { OpenAddExerciseToStackModal(muscle.title) }}>
-                                                        <Ionicons name="add" size={19} color="gray">
+                                                        <Ionicons name="add" size={25} color="gray">
                                                         </Ionicons>
                                                     </TouchableOpacity>
                                                 </View>
                                                 <View className="justify-center items-center w-[28px] h-[28px] rounded-sm bg-gray-300 shadow-sm">
                                                     <TouchableOpacity>
-                                                        <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={17} color="gray">
+                                                        <Ionicons onPress={() => { RemoveExerciseFromStack(muscle.title) }} name="trash" size={19} color="gray">
                                                         </Ionicons>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
 
                                             <Pressable onPress={() => showExercises(muscle)} className="justify-center items-center w-[20px] h-[28px] rounded-sm">
-                                                <Ionicons name="chevron-down-outline" size={17} color="gray"></Ionicons>
+                                                <Ionicons name="chevron-down" size={22} color="gray"></Ionicons>
                                             </Pressable>
                                         </View>
                                 }

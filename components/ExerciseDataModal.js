@@ -17,7 +17,7 @@ function ExerciseDataModal() {
     const [note_value, onChangeText] = useState('');
     const [exerciseNameText, setExerciseNameText] = useState('');
     const [btnView, setBtnView] = useState(false)
-    // const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const dispatch = useDispatch()
 
@@ -124,11 +124,9 @@ function ExerciseDataModal() {
     /////////////////////////////
     const inputRef = useRef(null);
     const inputFocus = useRef(false);
-    const noteOpen = useRef(false);
 
     const handleNoteBtnClick = () => {
-        // setIsOpen(!isOpen);
-        noteOpen.current ? noteOpen.current = false : noteOpen.current = true
+        setIsOpen(!isOpen);
     }
 
     const changeFocus = () => {
@@ -200,7 +198,7 @@ function ExerciseDataModal() {
                                 </View>
 
                                 {/* NOTE SECTION */}
-                                <NoteComponent isOpen={noteOpen} notes={note_value} noteEdit={onChangeText} />
+                                <NoteComponent isOpen={isOpen} notes={note_value} noteEdit={onChangeText} />
                             </View>
 
 
